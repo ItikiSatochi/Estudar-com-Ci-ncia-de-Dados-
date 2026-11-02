@@ -1,0 +1,6 @@
+{
+  "name": "DataConcurso - Ciência de Dados para Concursos",
+  "description": "Plataforma interativa e simplificada para dominar os principais tópicos de Ciência de Dados para concursos públicos em 30 dias.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
