@@ -275,5 +275,147 @@ export const QUESTIONS_DATA: Question[] = [
     correctAnswer: 'B',
     explicacao: 'Gabarito B. O trecho final do texto diz explicitamente: "...spot microscopic cracks and signs of corrosion long before any major leakage occurs, thereby avoiding catastrophic environmental damage and reducing maintenance downtime", exatamente o que consta na alternativa B.',
     pegadinha: 'Técnica de Scanning: localize as palavras "leakage", "cracks" e "downtime" no texto para confirmar a resposta sem perder tempo traduzindo o parágrafo inteiro.'
+  },
+  {
+    id: 'csg-cd-7',
+    discipline: 'cienciadados',
+    banca: 'Cesgranrio',
+    orgaoAno: 'Petrobras / Nível Superior',
+    topicId: 'dikw',
+    topicName: 'Pirâmide DIKW - Do Dado à Decisão',
+    type: 'multipla_escolha',
+    enunciado: 'Em um sistema de telemetria de dutos da Transpetro, um sensor emite o registro numérico "82.5". Ao ser processado e associado à unidade de medida e ao duto correspondente ("Pressão de 82.5 bar no duto Sul"), esse registro é contextualizado. Segundo a hierarquia DIKW (Dado, Informação, Conhecimento, Sabedoria), a transição descrita representa a passagem de:',
+    options: [
+      { id: 'A', text: 'Conhecimento para Sabedoria.' },
+      { id: 'B', text: 'Informação para Conhecimento.' },
+      { id: 'C', text: 'Dado bruto para Informação.' },
+      { id: 'D', text: 'Sabedoria para Dado.' },
+      { id: 'E', text: 'Dado bruto para Metadado ontológico.' }
+    ],
+    correctAnswer: 'C',
+    explicacao: 'Gabarito C. O "82.5" isolado é um DADO (fato bruto desprovido de contexto). Ao receber significado e contexto ("Pressão de 82.5 bar no duto Sul"), ele se torna INFORMAÇÃO. Se dissermos que essa pressão exige redução imediata de fluxo por risco de fadiga, temos Conhecimento.',
+    pegadinha: 'A banca costuma trocar Dado com Informação. Lembre-se: Dado é cru; Informação é o dado com contexto e utilidade.'
+  },
+  {
+    id: 'csg-cd-8',
+    discipline: 'cienciadados',
+    banca: 'Cesgranrio',
+    orgaoAno: 'Banco do Brasil / Tecnologia',
+    topicId: 'tipos-dados',
+    topicName: 'Tipos de Dados - Estruturados, Semiestruturados e Não Estruturados',
+    type: 'multipla_escolha',
+    enunciado: 'Arquivos gerados no formato JSON ou XML, que utilizam tags ou pares de chave-valor para organizar hierarquicamente os registros sem estarem presos a um esquema tabular rígido relacional prévio, são tecnicamente classificados como:',
+    options: [
+      { id: 'A', text: 'Dados Estruturados.' },
+      { id: 'B', text: 'Dados Semiestruturados.' },
+      { id: 'C', text: 'Dados Não Estruturados.' },
+      { id: 'D', text: 'Dados Desestruturados.' },
+      { id: 'E', text: 'Dados Pseudo-relacionais.' }
+    ],
+    correctAnswer: 'B',
+    explicacao: 'Gabarito B. Arquivos JSON, XML e NoSQL de documentos são SEMIESTRUTURADOS: possuem marcadores ou etiquetas internas (tags, chaves), mas não possuem esquema relacional rígido de tabela (linhas e colunas com tipos pré-fixados).',
+    pegadinha: 'Muitos marcam Não Estruturados por engano. Não estruturados são áudios, imagens, vídeos e textos livres de PDF.'
+  },
+  {
+    id: 'csg-cd-9',
+    discipline: 'cienciadados',
+    banca: 'Cesgranrio',
+    orgaoAno: 'Petrobras / Ciência de Dados',
+    topicId: 'dw-lake',
+    topicName: 'Data Warehouse vs Data Lake',
+    type: 'multipla_escolha',
+    enunciado: 'Ao comparar as arquiteturas de armazenamento analítico corporativo, assinale a característica que distingue primordialmente um Data Lake de um Data Warehouse tradicional:',
+    options: [
+      { id: 'A', text: 'O Data Lake armazena apenas dados limpos com Schema-on-Write, enquanto o Data Warehouse aceita áudios e vídeos brutos.' },
+      { id: 'B', text: 'O Data Lake adota a abordagem Schema-on-Read, persistindo dados em seu formato nativo bruto para posterior processamento analítico.' },
+      { id: 'C', text: 'O Data Warehouse dispensa totalmente qualquer processo de ETL ou modelagem dimensional.' },
+      { id: 'D', text: 'O Data Lake não pode ser implementado em ambientes de computação em nuvem.' },
+      { id: 'E', text: 'O Data Warehouse foi projetado exclusivamente para algoritmos de Deep Learning não supervisionados.' }
+    ],
+    correctAnswer: 'B',
+    explicacao: 'Gabarito B. O Data Lake armazena dados em seu estado nativo e bruto (estruturados, semi ou não estruturados) com abordagem Schema-on-Read (o esquema é aplicado apenas no momento da leitura/análise). O Data Warehouse usa Schema-on-Write (os dados são rigorosamente limpos e modelados antes da gravação).',
+    pegadinha: 'A alternativa A inverte completamente os conceitos: Data Warehouse é que usa Schema-on-Write.'
+  },
+  {
+    id: 'csg-cd-10',
+    discipline: 'cienciadados',
+    banca: 'Cesgranrio',
+    orgaoAno: 'Transpetro / Ciência de Dados',
+    topicId: 'metricas-avaliacao',
+    topicName: 'Matriz de Confusão - Sensibilidade (Recall) vs Precisão',
+    type: 'multipla_escolha',
+    enunciado: 'Em um sistema crítico de detecção precoce de vazamentos em oleodutos marítimos da Transpetro, a ocorrência de um falso negativo (o duto está vazando óleo no mar, mas o modelo diz que está tudo normal) acarreta danos ambientais incalculáveis. Nesse cenário de altíssimo risco, o cientista de dados deve priorizar a maximização da seguinte métrica de avaliação:',
+    options: [
+      { id: 'A', text: 'Sensibilidade (Recall / Revocação).' },
+      { id: 'B', text: 'Acurácia Global simples.' },
+      { id: 'C', text: 'Especificidade reversa.' },
+      { id: 'D', text: 'Taxa de compressão vetorial.' },
+      { id: 'E', text: 'P-valor assintótico.' }
+    ],
+    correctAnswer: 'A',
+    explicacao: 'Gabarito A. Sensibilidade (Recall) mede a proporção de positivos REAIS que o modelo conseguiu detectar: VP / (VP + FN). Se FN (falsos negativos) é catastrófico (não podemos deixar passar nenhum vazamento!), o Recall deve ser o mais próximo possível de 100%, mesmo tolerando alguns falsos alarmes.',
+    pegadinha: 'A acurácia global (alternativa B) é enganosa quando as classes são desbalanceadas (a imensa maioria dos dias não há vazamento).'
+  },
+  {
+    id: 'csg-cd-11',
+    discipline: 'cienciadados',
+    banca: 'Cesgranrio',
+    orgaoAno: 'Petrobras / Nível Superior',
+    topicId: 'overfitting-regularizacao',
+    topicName: 'Overfitting e Generalização de Modelos',
+    type: 'multipla_escolha',
+    enunciado: 'Durante o treinamento de um modelo de Árvore de Decisão profunda para prever a quebra de bombas de sucção em navios petroleiros, observou-se acurácia de 99,8% no conjunto de treinamento, porém apenas 61,2% no conjunto de teste independente. Esse fenômeno é conhecido como:',
+    options: [
+      { id: 'A', text: 'Underfitting (Subajuste).' },
+      { id: 'B', text: 'Overfitting (Sobreajuste).' },
+      { id: 'C', text: 'Invariância estocástica.' },
+      { id: 'D', text: 'Subamostragem estratificada.' },
+      { id: 'E', text: 'Convergência ótima de Bayes.' }
+    ],
+    correctAnswer: 'B',
+    explicacao: 'Gabarito B. Overfitting (Sobreajuste) ocorre quando o algoritmo "decora" o ruído e particularidades dos dados de treino, perdendo a capacidade de generalizar para dados novos e nunca antes vistos (baixo erro no treino, alto erro no teste).',
+    pegadinha: 'Lembre-se da analogia: Overfitting é o aluno que decora as vírgulas da prova passada; na prova nova, ele erra tudo.'
+  },
+  {
+    id: 'csg-port-5',
+    discipline: 'portugues',
+    banca: 'Cesgranrio',
+    orgaoAno: 'Transpetro / Nível Superior',
+    topicId: 'portugues-regencia',
+    topicName: 'Regência Verbal - Preferir e Implicar',
+    type: 'multipla_escolha',
+    enunciado: 'A regência verbal está em estrita conformidade com a norma-padrão da língua portuguesa em:',
+    options: [
+      { id: 'A', text: 'A equipe de engenharia preferiu a automação robótica do que o monitoramento manual.' },
+      { id: 'B', text: 'A adoção da nova arquitetura de dados implicou em profundas mudanças organizacionais.' },
+      { id: 'C', text: 'A equipe de engenharia preferiu a automação robótica ao monitoramento manual.' },
+      { id: 'D', text: 'Eles preferiram mais o trabalho presencial do que o remoto.' },
+      { id: 'E', text: 'A falha na fiscalização implicará de sanções administrativas à terceirizada.' }
+    ],
+    correctAnswer: 'C',
+    explicacao: 'Gabarito C. O verbo PREFERIR é transitivo direto e indireto: quem prefere, prefere uma coisa A outra (e NUNCA "do que" ou "mais que"). Correto: "preferiu a automação AO monitoramento". Já o verbo IMPLICAR no sentido de acarretar é transitivo direto (NÃO aceita "em": "implicou profundas mudanças").',
+    pegadinha: 'A Cesgranrio AMA cobrar "preferir... do que" e "implicar em". Ambas são consideradas erradas pela norma culta!'
+  },
+  {
+    id: 'csg-ing-4',
+    discipline: 'ingles',
+    banca: 'Cesgranrio',
+    orgaoAno: 'Transpetro / Nível Superior',
+    topicId: 'ingles-conectivos-cognatos',
+    topicName: 'Linking Words - In spite of / Despite',
+    type: 'multipla_escolha',
+    textContext: '"DESPITE the adverse weather in the Santos Basin, the offshore crude oil transfer was successfully executed with zero spills."',
+    enunciado: 'In the sentence above, the connective "DESPITE" introduces an idea of:',
+    options: [
+      { id: 'A', text: 'concession (contrast between two facts).' },
+      { id: 'B', text: 'chronological sequence.' },
+      { id: 'C', text: 'cause and effect consequence.' },
+      { id: 'D', text: 'hypothetical condition.' },
+      { id: 'E', text: 'mathematical proportion.' }
+    ],
+    correctAnswer: 'A',
+    explicacao: 'Gabarito A. "DESPITE" e seu sinônimo "IN SPITE OF" significam "APESAR DE / A DESPEITO DE", introduzindo uma ideia de CONCESSÃO (obstáculo que não impede a ação principal).',
+    pegadinha: 'Guarde: DESPITE não usa "of" (errado: despite of). O correto é: DESPITE = IN SPITE OF.'
   }
 ];
+

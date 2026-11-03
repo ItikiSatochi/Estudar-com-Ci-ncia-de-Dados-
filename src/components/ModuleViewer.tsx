@@ -3,6 +3,8 @@ import { ModuleSection, DisciplineType } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { DikwPyramidInteractive } from './DikwPyramidInteractive';
 import { CrispDmInteractive } from './CrispDmInteractive';
+import { SqlPlaygroundInteractive } from './SqlPlaygroundInteractive';
+import { MlAlgorithmsInteractive } from './MlAlgorithmsInteractive';
 import { 
   BookOpen, 
   CheckCircle2, 
@@ -20,7 +22,8 @@ import {
   Languages,
   PanelLeftClose,
   PanelLeftOpen,
-  ChevronDown
+  ChevronDown,
+  Sparkles
 } from 'lucide-react';
 
 interface ModuleViewerProps {
@@ -318,6 +321,8 @@ export function ModuleViewer({
           {/* Interactive Embed if Applicable */}
           {currentModule.id === 'dikw' && <DikwPyramidInteractive />}
           {currentModule.id === 'crisp-dm' && <CrispDmInteractive />}
+          {currentModule.id === 'sql-bancos-dados' && <SqlPlaygroundInteractive />}
+          {(currentModule.id === 'ml-supervisionado' || currentModule.id === 'ml-nao-supervisionado' || currentModule.id === 'preprocessamento-overfitting') && <MlAlgorithmsInteractive />}
           {currentModule.id === 'metricas-matriz' && onOpenMatrixSimulator && (
             <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 my-6 ${
               isClean 
@@ -356,15 +361,16 @@ export function ModuleViewer({
                   {sub.text}
                 </p>
 
-                {/* Example Callout */}
+                {/* Enhanced Practical Example Callout */}
                 {sub.example && (
-                  <div className={`border-l-4 p-3.5 rounded-r-xl text-xs sm:text-sm whitespace-pre-line ${
+                  <div className={`border-l-4 p-4 rounded-r-2xl text-xs sm:text-sm whitespace-pre-line shadow-xs ${
                     isClean
-                      ? 'bg-slate-50 border-emerald-500 text-slate-800'
-                      : 'bg-slate-800/50 border-emerald-500 text-slate-200'
+                      ? 'bg-emerald-50/80 border-emerald-500 text-slate-900'
+                      : 'bg-emerald-950/30 border-emerald-500 text-slate-100'
                   }`}>
-                    <span className="font-bold text-emerald-600 dark:text-emerald-400 block mb-1">
-                      💡 Exemplo Prático da Vida Real / Cesgranrio:
+                    <span className="font-bold text-emerald-700 dark:text-emerald-300 block mb-1.5 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                      <Sparkles className="w-4 h-4 text-emerald-500" />
+                      Exemplo Prático na Transpetro & Aplicação em Questão:
                     </span>
                     {sub.example}
                   </div>

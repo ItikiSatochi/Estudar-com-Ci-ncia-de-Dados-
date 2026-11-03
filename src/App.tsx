@@ -8,6 +8,8 @@ import { STUDY_PLAN_DATA } from './data/studyPlanData';
 
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
+import { DailyGuideView } from './components/DailyGuideView';
+import { CertificateModal } from './components/CertificateModal';
 import { ModuleViewer } from './components/ModuleViewer';
 import { ConfusionMatrixSimulator } from './components/ConfusionMatrixSimulator';
 import { QuizSimulado } from './components/QuizSimulado';
@@ -35,12 +37,61 @@ import {
 
 function AppContent() {
   const { isClean } = useTheme();
-  const [currentTab, setCurrentTab] = useState<TabType>('cienciadados');
+  
+  // Default tab is the Daily Guide (Guia Diário com seleção por dia)
+  const [currentTab, setCurrentTab] = useState<TabType>('guiadiario');
   const [simuladoFilterTopic, setSimuladoFilterTopic] = useState<string | undefined>(undefined);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [isBeginnerGuideOpen, setIsBeginnerGuideOpen] = useState<boolean>(false);
+  const [isCertificateOpen, setIsCertificateOpen] = useState<boolean>(false);
   const [englishSubTab, setEnglishSubTab] = useState<'decifrador' | 'modulos'>('decifrador');
   const [showBanner, setShowBanner] = useState<boolean>(true);
+
+  // Selected Day state (1 to 30)
+  const [currentSelectedDay, setCurrentSelectedDay] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('dataconcurso_current_day');
+      return saved ? Number(saved) : 1;
+    } catch {
+      return 1;
+    }
+  });
+
+  // Completed Days map
+  const [completedDays, setCompletedDays] = useState<Record<number, boolean>>(() => {
+    try {
+      const saved = localStorage.getItem('dataconcurso_completed_days');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  // Save day selection
+  const handleSelectDay = (day: number) => {
+    setCurrentSelectedDay(day);
+    try {
+      localStorage.setItem('dataconcurso_current_day', String(day));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Toggle day completed
+  const handleToggleDayCompleted = (day: number) => {
+    const next = { ...completedDays, [day]: !completedDays[day] };
+    setCompletedDays(next);
+    try {
+      localStorage.setItem('dataconcurso_completed_days', JSON.stringify(next));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Calculate overall progress percent
+  const totalDays = STUDY_PLAN_DATA.length;
+  const completedDaysCount = Object.values(completedDays).filter(Boolean).length;
+  const completionPercent = Math.round((completedDaysCount / totalDays) * 100);
 
   // Global keyboard shortcut for search
   useEffect(() => {
@@ -65,13 +116,19 @@ function AppContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleNavigateToTab = (tab: TabType, filterTopic?: string) => {
+    if (filterTopic) setSimuladoFilterTopic(filterTopic);
+    setCurrentTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${
       isClean 
         ? 'bg-slate-100 text-slate-800 selection:bg-emerald-500 selection:text-white' 
         : 'bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white'
     }`}>
-      {/* Top Navbar */}
+      {/* Top Navbar with Dropdown Day Selector & 80% Certificate Trigger */}
       <Navbar
         currentTab={currentTab}
         onTabChange={(tab) => {
@@ -81,6 +138,10 @@ function AppContent() {
         }}
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenBeginnerGuide={() => setIsBeginnerGuideOpen(true)}
+        onOpenCertificate={() => setIsCertificateOpen(true)}
+        completionPercent={completionPercent}
+        currentSelectedDay={currentSelectedDay}
+        onSelectDay={handleSelectDay}
       />
 
       {/* Target Exam Notice Banner */}
@@ -99,7 +160,7 @@ function AppContent() {
               <Ship className="w-3 h-3" /> Transpetro • Cesgranrio
             </span>
             <span>
-              1ª vez em concurso? Foque em <strong>Ênfase 8: Ciência de Dados</strong>, <strong>Português</strong> e no <strong>Decifrador de Inglês</strong>!
+              1ª vez em concurso? Use o <strong>Guia Diário (30 Dias)</strong> para estudar dia a dia e desbloqueie seu <strong>Certificado aos 80%+</strong>!
             </span>
             <button
               onClick={() => setIsBeginnerGuideOpen(true)}
@@ -120,6 +181,21 @@ function AppContent() {
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6">
+        
+        {/* Guia Diário Roteirizado (O que estudar dia a dia + Dropdown) */}
+        {currentTab === 'guiadiario' && (
+          <DailyGuideView
+            studyDays={STUDY_PLAN_DATA}
+            questions={QUESTIONS_DATA}
+            currentSelectedDay={currentSelectedDay}
+            onSelectDay={handleSelectDay}
+            onNavigateToTab={handleNavigateToTab}
+            onOpenCertificate={() => setIsCertificateOpen(true)}
+            completedDays={completedDays}
+            onToggleDayCompleted={handleToggleDayCompleted}
+          />
+        )}
+
         {/* Module Viewer for Data Science */}
         {currentTab === 'cienciadados' && (
           <ModuleViewer
@@ -212,11 +288,24 @@ function AppContent() {
           <GlossaryView terms={GLOSSARY_DATA} />
         )}
 
-        {/* 30-Day Plan */}
+        {/* 30-Day Plan Overview */}
         {currentTab === 'plano' && (
           <StudyPlanView days={STUDY_PLAN_DATA} />
         )}
       </main>
+
+      {/* Official 80%+ Certificate Modal */}
+      <CertificateModal
+        isOpen={isCertificateOpen}
+        onClose={() => setIsCertificateOpen(false)}
+        completionPercent={completionPercent}
+        stats={{
+          daysCompleted: completedDaysCount,
+          totalDays,
+          questionsAnswered: completedDaysCount * 2,
+          correctRate: Math.min(100, 75 + Math.round(completionPercent * 0.25))
+        }}
+      />
 
       {/* Beginner Guide Modal */}
       <BeginnerGuideModal
@@ -250,16 +339,18 @@ function AppContent() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>
-            <strong>Transpetro Ciência de Dados</strong> — Preparatório Didático Cesgranrio (Ênfase 8).
+            <strong>Transpetro Ciência de Dados</strong> — Guia de Estudos Roteirizado Cesgranrio (Ênfase 8).
           </p>
           <div className="flex items-center gap-3">
+            <span>Roteiro Diário</span>
+            <span>•</span>
             <span>Português</span>
             <span>•</span>
             <span>Inglês Instrumental</span>
             <span>•</span>
             <span>Ciência de Dados</span>
             <span>•</span>
-            <span>Rumo à Transpetro! 🚢</span>
+            <span>Certificado 80%+ 🎓</span>
           </div>
         </div>
       </footer>

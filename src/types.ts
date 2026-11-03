@@ -1,4 +1,5 @@
 export type TabType = 
+  | 'guiadiario'
   | 'cienciadados' 
   | 'portugues' 
   | 'ingles' 
@@ -6,7 +7,8 @@ export type TabType =
   | 'simulado' 
   | 'flashcards' 
   | 'glossario' 
-  | 'plano';
+  | 'plano'
+  | 'certificado';
 
 export type DisciplineType = 'cienciadados' | 'portugues' | 'ingles';
 
@@ -80,4 +82,9 @@ export interface StudyDay {
   topics: string[];
   durationMinutes: number;
   actionItems: string[];
+  discipline?: DisciplineType | 'revisao';
+  relatedModuleId?: string;
+  relatedQuestionIds?: string[];
+  keyMnemonic?: string;
+  theorySummary?: string;
 }

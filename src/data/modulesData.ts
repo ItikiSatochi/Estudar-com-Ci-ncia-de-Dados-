@@ -552,5 +552,299 @@ export const MODULES_DATA: ModuleSection[] = [
         'Fleet = Frota naval.'
       ]
     }
+  },
+
+  // ==========================================
+  // NOVOS MÓDULOS ENRIQUECIDOS - CIÊNCIA DE DADOS
+  // ==========================================
+  {
+    id: 'ml-supervisionado',
+    discipline: 'cienciadados',
+    title: '10. Machine Learning Supervisionado: Classificação e Regressão',
+    shortDescription: 'Árvores de Decisão, Random Forest, SVM, Regressão Logística, Linear e KNN com exemplos práticos.',
+    badge: 'Machine Learning',
+    readTime: '10 min',
+    keyPoints: [
+      'Supervisionado: o algoritmo aprende a partir de dados históricos rotulados (com gabarito/target conhecido).',
+      'Classificação (variável discreta/categórica): Sim/Não, Falha/Normal, Tipo de Óleo (Árvores, Random Forest, SVM, Logística, KNN, Naive Bayes).',
+      'Regressão (variável contínua/numérica): Preço, Volume de Vazão, Horas até quebra (Regressão Linear, Ridge, Lasso, Árvores de Regressão).',
+      'Árvores de Decisão: dividem o espaço baseando-se em impureza de Gini ou Entropia/Ganho de Informação.',
+      'Random Forest: comitê (ensemble) de múltiplas árvores com amostragem aleatória (Bagging), reduzindo a variância.',
+      'SVM (Support Vector Machines): encontra o hiperplano ótimo de margem máxima que separa as classes.'
+    ],
+    content: {
+      intro: 'O Aprendizado Supervisionado é o pilar mais cobrado em provas da Cesgranrio. O modelo recebe exemplos passados contendo as variáveis explicativas (features) e o rótulo correto (target), ajustando seus parâmetros internos para prever novos casos.',
+      subsections: [
+        {
+          subtitle: 'Classificação vs Regressão: A Diferença Crucial de Prova',
+          text: 'A distinção entre Classificação e Regressão é uma das perguntas mais frequentes em concursos:\n\n• Classificação: A variável que queremos prever é uma CATEGORIA ou CLASSE (qualitativa/discreta).\n  - Exemplo Transpetro 1: O sensor acusará risco de vazamento? [Classe: "Sim" ou "Não"].\n  - Exemplo Transpetro 2: O combustível atende às especificações da ANP? [Classe: "Conforme", "Não Conforme", "Em Análise"].\n  - Principais Algoritmos: Árvores de Decisão, Random Forest, Regressão Logística, SVM, KNN, Naive Bayes.\n\n• Regressão: A variável que queremos prever é um NÚMERO CONTÍNUO (quantitativo).\n  - Exemplo Transpetro 1: Qual será a vazão exata de óleo em m³/hora no oleoduto amanhã? [Número: 1.450,8 m³/h].\n  - Exemplo Transpetro 2: Quantas horas úteis de operação restam até a bomba necessitar de troca de rolamento? [Número: 342 horas].\n  - Principais Algoritmos: Regressão Linear Simples/Múltipla, Ridge, Lasso, SVR (Support Vector Regression).',
+          comparisonTable: {
+            headers: ['Problema / Tarefa', 'Tipo de Saída (Target)', 'Algoritmos Recomendados', 'Métricas de Avaliação'],
+            rows: [
+              ['Classificação', 'Rótulo / Categoria (Sim/Não, A/B/C)', 'Regressão Logística, Random Forest, SVM, KNN', 'Acurácia, Precisão, Recall, F1, ROC-AUC'],
+              ['Regressão', 'Valor Numérico Contínuo (R$, m³, Horas)', 'Regressão Linear, Ridge, Lasso, Random Forest Regressor', 'MSE, RMSE, MAE, R² (R-quadrado)']
+            ]
+          },
+          examTip: 'Cuidado com a PEGADINHA da Cesgranrio: apesar do nome ter "Regressão", a REGRESSÃO LOGÍSTICA é um algoritmo de CLASSIFICAÇÃO (prevê probabilidades entre 0 e 1 para classes discretas)!'
+        },
+        {
+          subtitle: 'Os 6 Algoritmos Mais Cobrados e Como Funcionam na Prática',
+          text: '1. Árvores de Decisão (Decision Trees): Estrutura hierárquica de regras "SE-ENTÃO". O algoritmo escolhe a melhor divisão usando medidas de pureza como Índice de Gini (quanto mais próximo de 0, mais pura a divisão) ou Entropia (da Teoria da Informação).\n2. Random Forest (Florestas Aleatórias): Cria centenas de árvores independentes treinadas em subconjuntos aleatórios de dados e de variáveis (técnica chamada Bagging). A decisão final é a votação da maioria. Vantagem: é muito mais robusta a overfitting do que uma árvore isolada.\n3. Regressão Logística: Aplica a função sigmoide (curva em S) sobre uma combinação linear de variáveis, convertendo qualquer número em uma probabilidade entre 0% e 100%.\n4. K-Nearest Neighbors (KNN): Não cria modelo prévio (algoritmo "preguiçoso" ou lazy). Quando chega um novo dado, calcula a distância euclidiana para todos os pontos e classifica pela classe predominante entre os K vizinhos mais próximos.\n5. Support Vector Machine (SVM): Busca encontrar o "hiperplano separador ótimo" que maximize a distância (margem) entre as classes. Pontos mais próximos do hiperplano são chamados de "Vetores de Suporte". Quando os dados não são linearmente separáveis, usa funções de Kernel (como RBF/Radial) para projetar os dados em dimensões superiores.\n6. Naive Bayes: Baseado no Teorema de Bayes de probabilidade condicional. É chamado de "Naive" (ingênuo) porque assume a premissa de que todas as variáveis são independentes entre si.',
+          example: 'Exemplo Prático na Transpetro: Para prever se uma válvula submarina sofrerá emperramento nas próximas 48h com base em 3 variáveis (pressão em bar, temperatura em °C e tempo desde a última lubrificação em dias), uma Árvore de Decisão faz perguntas consecutivas: "Pressão > 85 bar? Se SIM, Temperatura > 60°C? Se SIM, classe = ALTO RISCO DE FALHA".'
+        }
+      ],
+      bancaTrap: 'Dizer que o Naive Bayes considera correlações complexas entre as variáveis. FALSO! O Naive Bayes assume independência estrita entre os preditores.',
+      summaryCheatsheet: [
+        'Regressão Logística = Classificação (não regressão!).',
+        'Árvores de Decisão = Critério de Gini e Entropia.',
+        'Random Forest = Conjunto de árvores (Bagging) para reduzir variância.',
+        'KNN = Baseado em distâncias (sensível à escala dos dados).',
+        'SVM = Margem máxima e vetores de suporte.'
+      ]
+    }
+  },
+  {
+    id: 'ml-nao-supervisionado',
+    discipline: 'cienciadados',
+    title: '11. Machine Learning Não Supervisionado: K-Means, DBSCAN e Apriori',
+    shortDescription: 'Clusterização de frotas e dutos, detecção de anomalias por densidade e regras de associação.',
+    badge: 'Machine Learning',
+    readTime: '9 min',
+    keyPoints: [
+      'Não Supervisionado: NÃO há rótulos nem gabarito prévio (o algoritmo descobre padrões e agrupamentos ocultos).',
+      'K-Means: particiona os dados em K grupos ao redor de centróides médios (calcula distâncias euclidianas iterativamente).',
+      'Método do Cotovelo (Elbow Method): técnica para descobrir o número ótimo de clusters K observando a inércia (WCSS).',
+      'DBSCAN: clusterização baseada em densidade espacial; detecta automaticamente formas arbitrárias e identifica ruídos (outliers).',
+      'Regras de Associação (Apriori): descobre regras do tipo "SE compra A, ENTÃO compra B" (Métricas: Suporte, Confiança e Lift).'
+    ],
+    content: {
+      intro: 'Quando a Transpetro recebe milhões de leituras de sensores sem saber previamente quais navios operam de forma eficiente ou quais dutos têm comportamento atípico, aplicam-se algoritmos Não Supervisionados para agrupar e revelar comportamentos ocultos.',
+      subsections: [
+        {
+          subtitle: 'K-Means em Detalhes: O Algoritmo Campeão de Provas',
+          text: 'O K-Means funciona em 4 passos simples e elegantes:\n1. O cientista escolhe o número K de grupos desejados (ex: K = 3).\n2. O algoritmo posiciona K pontos aleatórios no espaço, chamados CENTRÓIDES.\n3. Cada dado da tabela é atribuído ao centróide mais próximo (pela distância euclidiana).\n4. O algoritmo recalcula a posição de cada centróide como sendo a média de todos os pontos atribuídos àquele grupo.\n5. Os passos 3 e 4 se repetem até os centróides pararem de se mover (convergência).\n\n• Como definir o melhor K? Utiliza-se o Método do Cotovelo (Elbow Method): plota-se o gráfico da Inércia (soma das distâncias quadráticas intra-cluster) em função de K. O ponto onde a curva forma uma "dobra de cotovelo" é o K ideal.',
+          examTip: 'Cesgranrio adora perguntar limitações do K-Means: ele exige que você defina o K previamente, é muito sensível a outliers (que puxam os centróides) e só identifica clusters esféricos/circulares.'
+        },
+        {
+          subtitle: 'DBSCAN vs K-Means: A Batalha dos Métodos de Agrupamento',
+          text: 'Enquanto o K-Means tenta forçar todos os pontos para algum cluster, o DBSCAN (Density-Based Spatial Clustering of Applications with Noise) agrupa regiões densas e separa o ruído:\n• Parâmetros do DBSCAN:\n  - Epsilon (eps): o raio de vizinhança ao redor de cada ponto.\n  - MinPts: o número mínimo de pontos dentro do raio epsilon para formar um núcleo denso.\n• Vantagens do DBSCAN:\n  1. NÃO precisa que você defina o número de clusters K previamente!\n  2. Identifica automaticamente ruídos e outliers (pontos isolados que não atendem ao MinPts são classificados como ruído).\n  3. Consegue encontrar clusters em formatos complexos e orgânicos (não apenas esferas).',
+          comparisonTable: {
+            headers: ['Critério', 'K-Means', 'DBSCAN'],
+            rows: [
+              ['Número de Clusters K', 'Obrigatório definir antes', 'Automático (descoberto pelos dados)'],
+              ['Sensibilidade a Outliers', 'Alta (o outlier deforma o centróide)', 'Baixa (classifica outliers como ruído)'],
+              ['Formato dos Clusters', 'Apenas esféricos / convexos', 'Formatos arbitrários e sinuosos'],
+              ['Custo Computacional', 'Rápido, escala bem para Big Data', 'Mais custoso para bases imensas']
+            ]
+          },
+          example: 'Exemplo Prático na Transpetro: Segmentação da frota de navios petroleiros em 3 clusters: Cluster 1 = Navios de longa distância em alto mar com velocidade constante; Cluster 2 = Navios de cabotagem costeira com paradas frequentes; Cluster 3 = Navios operando em manobras portuárias lentas. O K-Means agrupou sem ninguém precisar rotular à mão.'
+        },
+        {
+          subtitle: 'Regras de Associação (Algoritmo Apriori)',
+          text: 'Utilizado para mineração de padrões de ocorrências simultâneas (ex: peças que falham juntas em relatórios de manutenção):\n• Suporte (Support): Frequência com que o conjunto de itens aparece na base total: Suporte(A, B) = Ocorrências(A e B) / Total.\n• Confiança (Confidence): Probabilidade de B ocorrer dado que A ocorreu: Confiança(A → B) = Suporte(A, B) / Suporte(A).\n• Lift (Elevação): Mede a força da regra comparada ao acaso. Se Lift > 1, a presença de A aumenta significativamente a chance de B acontecer.',
+          examTip: 'Se a questão mencionar "Lift > 1", significa que a associação entre os itens é POSITIVA e não é mero acaso estatístico!'
+        }
+      ],
+      bancaTrap: 'Dizer que o K-Means é ótimo para detectar ruído. FALSO! O K-Means tenta forçar outliers para dentro de algum grupo. O algoritmo especialista em ruído é o DBSCAN.',
+      summaryCheatsheet: [
+        'K-Means = Exige K prévio, centróides médios, clusters esféricos.',
+        'Elbow Method = Acha o K onde a curva de inércia forma um cotovelo.',
+        'DBSCAN = Baseado em densidade (Eps e MinPts), isola ruído/outliers.',
+        'Apriori = Suporte (frequência), Confiança (condicional), Lift (> 1 indica regra real).'
+      ]
+    }
+  },
+  {
+    id: 'preprocessamento-overfitting',
+    discipline: 'cienciadados',
+    title: '12. Pré-processamento, Outliers, Codificação e Regularização',
+    shortDescription: 'Limpeza, normalização, One-Hot Encoding, Overfitting vs Underfitting e Regularização L1/L2.',
+    badge: 'Engenharia de Dados',
+    readTime: '9 min',
+    keyPoints: [
+      'Tratamento de Nulos: Imputação por Média (dados simétricos), Mediana (robusta a outliers) ou exclusão controlada.',
+      'Detecção de Outliers: Regra do Intervalo Interquartil (IQR = Q3 - Q1, limites: Q1 - 1.5*IQR e Q3 + 1.5*IQR) e Z-Score (|Z| > 3).',
+      'Normalização Min-Max ([0, 1]) vs Padronização StandardScaler (média 0 e desvio padrão 1).',
+      'Codificação: One-Hot Encoding (cria colunas binárias 0/1 para nominais sem ordem) vs Ordinal Encoding (quando há ordem intrínseca).',
+      'Overfitting (Sobreajuste): baixo erro no treino, alto erro no teste (o modelo decorou o ruído).',
+      'Regularização: Lasso (L1) zera coeficientes irrelevantes (seleção de variáveis); Ridge (L2) encolhe coeficientes sem zerá-los.'
+    ],
+    content: {
+      intro: 'Na prática de um Cientista de Dados na Transpetro, 80% do tempo de um projeto (conforme o CRISP-DM) é dedicado a limpar dados sujos, tratar leituras com defeito e garantir que o modelo generalize bem sem sofrer de overfitting.',
+      subsections: [
+        {
+          subtitle: 'Normalização vs Padronização: Quando Usar Cada Uma?',
+          text: 'Algoritmos baseados em distâncias (como KNN, K-Means e SVM) ou em gradiente descendente (como Redes Neurais e Regressão Logística) são extremamente prejudicados se uma variável estiver em escala de milhões e outra em escala de zero a um:\n\n• Normalização (Min-Max Scaling):\n  - Fórmula: X_norm = (X - X_min) / (X_max - X_min)\n  - Transforma todos os valores para o intervalo rígido entre [0 e 1].\n  - Uso recomendado: quando os dados NÃO seguem distribuição normal ou quando o algoritmo exige limites fixos (como redes neurais e imagens).\n\n• Padronização (StandardScaler / Z-Score):\n  - Fórmula: Z = (X - média) / desvio_padrão\n  - Centraliza os dados na média 0 e com desvio padrão unitário 1.\n  - Uso recomendado: quando os dados seguem distribuição Gaussiana (Normal) ou para algoritmos sensíveis como SVM e PCA. É muito mais tolerante a outliers do que o Min-Max!',
+          example: 'Telemetria de Dutos: Pressão varia de 50 a 120 bar; Vazão varia de 1.000 a 10.000 m³/h. Sem padronização, o algoritmo de clusterização consideraria a vazão 100 vezes mais importante que a pressão simplesmente porque seus números são maiores!'
+        },
+        {
+          subtitle: 'Codificação de Variáveis Categóricas (Encoding)',
+          text: 'Computadores operam com matemática vetorial, não com palavras. Portanto, variáveis de texto devem ser convertidas em números:\n• One-Hot Encoding (Variáveis Dummy):\n  - Cria uma nova coluna binária (0 ou 1) para cada categoria existente.\n  - Exemplo: Tipo de Terminal marítimo: [Ilha Redonda, Angra, Santos]. Cria 3 colunas: Terminal_Ilha, Terminal_Angra, Terminal_Santos.\n  - Recomendado para categorias NOMINAIS (sem hierarquia nem ordem).\n• Ordinal Encoding:\n  - Mapeia categorias para inteiros respeitando uma ordem lógica.\n  - Exemplo: Nível de Gravidade de Alarme: Baixo = 1, Médio = 2, Crítico = 3, Emergência = 4.',
+          examTip: 'Cesgranrio ama cobrar: Se você aplicar Ordinal Encoding em categorias que NÃO têm ordem (ex: Cores de Casco de Navio: Vermelho=1, Azul=2, Branco=3), o algoritmo assumirá falsamente que Branco é maior que Vermelho! Por isso usa-se One-Hot Encoding.'
+        },
+        {
+          subtitle: 'Overfitting vs Underfitting e Regularização (Lasso vs Ridge)',
+          text: '• Overfitting (Sobreajuste / Alta Variância):\n  - O modelo se ajusta perfeitamente aos dados de treino (acurácia 99%), mas erra grotescamente em dados novos de teste (acurácia 55%).\n  - Causa: modelo complexo demais que decorou o ruído.\n  - Soluções: Reduzir complexidade, usar mais dados de treino, aplicar Validação Cruzada (K-Fold) e aplicar Regularização.\n\n• Underfitting (Subajuste / Alto Viés):\n  - O modelo é simples demais e não consegue aprender nem os dados de treino (acurácia 50% no treino e 50% no teste).\n  - Solução: Adicionar mais variáveis ou usar um algoritmo mais potente.\n\n• Regularização Lasso (L1) vs Ridge (L2):\n  - A regularização adiciona uma penalidade à função de perda para evitar pesos gigantescos:\n  - Ridge (L2): Penaliza o quadrado dos coeficientes. Encolhe os pesos para perto de zero, mas NUNCA os zera completamente.\n  - Lasso (L1): Penaliza o valor absoluto dos coeficientes. Consegue zerar totalmente coeficientes de variáveis inúteis, atuando como um SELETOR AUTOMÁTICO DE VARIÁVEIS!',
+          comparisonTable: {
+            headers: ['Técnica', 'Penalidade Matemática', 'Efeito nos Coeficientes', 'Especialidade de Prova'],
+            rows: [
+              ['Ridge (L2)', 'Soma dos quadrados: λ * Σ(w²)', 'Encolhe pesos para próximo de zero', 'Bom quando há multicolinearidade (muitas variáveis correlacionadas)'],
+              ['Lasso (L1)', 'Soma dos módulos: λ * Σ|w|', 'Zera pesos irrelevantes', 'Atua como seleção de variáveis (Feature Selection)']
+            ]
+          }
+        }
+      ],
+      bancaTrap: 'Confundir Lasso com Ridge: Guarde a letra L de Lasso = Limpa/Zera variáveis!',
+      summaryCheatsheet: [
+        'Min-Max = Escala [0, 1] | StandardScaler = Média 0, DP 1.',
+        'One-Hot Encoding = Para nominais sem ordem (cria colunas 0/1).',
+        'Ordinal Encoding = Para ordens com hierarquia (Baixo, Médio, Alto).',
+        'Overfitting = Baixo erro no treino, alto no teste (decorou o ruído).',
+        'Lasso L1 = Zera variáveis | Ridge L2 = Encolhe coeficientes.'
+      ]
+    }
+  },
+  {
+    id: 'sql-bancos-dados',
+    discipline: 'cienciadados',
+    title: '13. Bancos de Dados Relacionais & SQL para Ciência de Dados',
+    shortDescription: 'SELECT, WHERE, JOINs (Inner, Left, Right), GROUP BY, HAVING e Window Functions.',
+    badge: 'SQL & Bancos',
+    readTime: '9 min',
+    keyPoints: [
+      'SQL (Structured Query Language): linguagem padrão para consulta e manipulação de bancos relacionais (PostgreSQL, Oracle, MySQL, SQL Server).',
+      'Ordem Lógica de Execução do SELECT: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT.',
+      'WHERE vs HAVING: WHERE filtra linhas individuais ANTES do agrupamento; HAVING filtra grupos consolidados APÓS o GROUP BY.',
+      'INNER JOIN: retorna apenas registros que possuem correspondência em AMBAS as tabelas.',
+      'LEFT JOIN: retorna TODOS os registros da tabela da esquerda, preenchendo com NULL onde não houver correspondência na direita.',
+      'Window Functions (ROW_NUMBER, RANK, DENSE_RANK): realizam cálculos sobre partições de linhas sem agrupar em linha única.'
+    ],
+    content: {
+      intro: 'Antes de rodar qualquer algoritmo de Machine Learning, o Cientista de Dados da Transpetro precisa extrair e cruzar dados de bancos de dados relacionais via SQL. Questões de SQL com tabelas e saídas de consultas são certas na Cesgranrio.',
+      subsections: [
+        {
+          subtitle: 'A Batalha dos JOINs na Prática',
+          text: 'Imagine duas tabelas da Transpetro:\n• Tabela `navios` (id_navio, nome_navio, capacidade_dwt)\n• Tabela `viagens` (id_viagem, id_navio, terminal_origem, carga_transportada)\n\n1. INNER JOIN:\n   `SELECT n.nome_navio, v.carga_transportada FROM navios n INNER JOIN viagens v ON n.id_navio = v.id_navio;`\n   Resultado: Traz apenas os navios que realizaram viagens cadastradas.\n\n2. LEFT JOIN (ou LEFT OUTER JOIN):\n   `SELECT n.nome_navio, v.carga_transportada FROM navios n LEFT JOIN viagens v ON n.id_navio = v.id_navio;`\n   Resultado: Traz TODOS os navios da tabela `navios`. Se um navio novo nunca fez nenhuma viagem, ele aparece na consulta com a coluna `carga_transportada` preenchida com NULL!\n\n3. RIGHT JOIN:\n   Resultado: Traz todas as viagens, mesmo que o navio associado tenha sido deletado.\n\n4. FULL OUTER JOIN:\n   Resultado: Traz tudo de ambas as tabelas, unindo com NULL quando não há par.',
+          comparisonTable: {
+            headers: ['Tipo de JOIN', 'O que retorna?', 'Quando há linhas sem correspondência?'],
+            rows: [
+              ['INNER JOIN', 'Apenas a interseção exata (linhas que casam)', 'Linhas sem par são descartadas'],
+              ['LEFT JOIN', 'Toda a tabela da esquerda + dados da direita', 'Lado direito é preenchido com NULL'],
+              ['RIGHT JOIN', 'Toda a tabela da direita + dados da esquerda', 'Lado esquerdo é preenchido com NULL'],
+              ['FULL JOIN', 'União completa de ambas as tabelas', 'Valores ausentes viram NULL em ambos os lados']
+            ]
+          },
+          examTip: 'Se a Cesgranrio perguntar: "Qual comando lista TODOS os navios, inclusive aqueles que NÃO registraram nenhuma manutenção?", a resposta correta é LEFT JOIN com a tabela de manutenções!'
+        },
+        {
+          subtitle: 'WHERE vs HAVING: A Pegadinha Mais Antiga da Cesgranrio',
+          text: '• Cláusula WHERE: Filtra linhas individuais da tabela ANTES de qualquer agrupamento. Não aceita funções de agregação como SUM(), AVG(), COUNT().\n  Exemplo Correto: `WHERE status_operacional = \'Ativo\'`\n  Exemplo ERRADO na prova: `WHERE COUNT(id_viagem) > 5` (violação de sintaxe!).\n\n• Cláusula HAVING: Filtra o resultado consolidado APÓS a execução do `GROUP BY`. É usada obrigatoriamente para filtrar por funções de agregação!\n  Exemplo Correto: `GROUP BY terminal_origem HAVING COUNT(id_viagem) > 10;`\n  (Mostra apenas terminais que registraram mais de 10 viagens no total).',
+          example: 'Consulta Real da Transpetro: Listar navios que transportaram mais de 500.000 barris no total:\nSELECT id_navio, SUM(barris_transportados) AS total_barris\nFROM operacoes_navais\nWHERE ano = 2026\nGROUP BY id_navio\nHAVING SUM(barris_transportados) > 500000\nORDER BY total_barris DESC;'
+        }
+      ],
+      bancaTrap: 'Usar função de agregação (como SUM ou AVG) dentro do WHERE. Isso causa erro de execução em SQL. Filtro com função agregada exige HAVING!',
+      summaryCheatsheet: [
+        'INNER JOIN = Apenas interseção.',
+        'LEFT JOIN = Todos da esquerda, nulos à direita se não casar.',
+        'WHERE = Filtra linhas antes de agrupar (não aceita SUM/COUNT).',
+        'HAVING = Filtra grupos agregados após o GROUP BY.',
+        'ORDER BY DESC = Ordem decrescente (maior para o menor).'
+      ]
+    }
+  },
+
+  // ==========================================
+  // NOVOS MÓDULOS ENRIQUECIDOS - PORTUGUÊS
+  // ==========================================
+  {
+    id: 'portugues-regencia-crase-verbos',
+    discipline: 'portugues',
+    title: '4. Regência Verbal: Os Verbos Perigosos da Cesgranrio',
+    shortDescription: 'Preferir, Implicar, Assistir, Visar, Aspirar e Esquecer com exemplos práticos de prova.',
+    badge: 'Português Cesgranrio',
+    readTime: '8 min',
+    keyPoints: [
+      'Preferir: transitivo direto e indireto, exige a preposição "a" (NUNCA "do que" nem "mais que").',
+      'Implicar: no sentido de acarretar, é transitivo direto (NÃO aceita a preposição "em").',
+      'Assistir: no sentido de ver/presenciar exige "a" ("assistiu ao evento"). No sentido de prestar assistência é direto ("assistiu o acidentado").',
+      'Visar e Aspirar: no sentido de desejar/almejar exigem a preposição "a" ("visava ao cargo", "aspirava à vaga").',
+      'Esquecer e Lembrar: sem pronome são diretos ("esqueci o prazo"). Com pronome exigem "de" ("esqueci-me do prazo").'
+    ],
+    content: {
+      intro: 'A banca Cesgranrio tem predileção por verbos cuja regência culta diverge da linguagem coloquial do dia a dia. Conhecer a regência exata desses 6 verbos garante acertos imediatos.',
+      subsections: [
+        {
+          subtitle: 'Os 6 Verbos Clássicos Analisados com Certo e Errado',
+          text: '1. Verbo PREFERIR:\n• Errado no dia a dia: "Prefiro mais Ciência de Dados do que Direito."\n• Correto na norma-padrão: "Prefiro Ciência de Dados A Direito."\n(Regra: O verbo preferir rejeita intensificadores como "mais", "muito mais" e rejeita a locução "do que").\n\n2. Verbo IMPLICAR:\n• Errado no dia a dia: "A nova norma da ANP implicou em custos extras."\n• Correto na norma-padrão: "A nova norma da ANP implicou custos extras."\n(Regra: No sentido de causar, produzir ou acarretar, é VTD puro, sem preposição "em").\n\n3. Verbo ASSISTIR:\n• No sentido de ver/presenciar: VTI exigindo preposição "a": "O técnico assistiu AO monitoramento do duto."\n• No sentido de dar auxílio/socorrer: VTD: "A equipe médica assistiu O trabalhador ferido."\n\n4. Verbos ASPIRAR e VISAR:\n• No sentido de aspirar ar/perfume: VTD sem preposição: "Aspirou o ar marinho."\n• No sentido de desejar/almejar: VTI com preposição "a": "O candidato aspira AO cargo na Transpetro." / "O projeto visa À sustentabilidade."\n\n5. Verbos ESQUECER e LEMBRAR:\n• Se NÃO tiver pronome reflexivo (não pronominal): VTD sem preposição: "O fiscal esqueceu o relatório."\n• Se TIVER pronome reflexivo (pronominal): VTI com preposição "de": "O fiscal esqueceu-SE DO relatório."',
+          comparisonTable: {
+            headers: ['Verbo', 'Construção Errada (Pegadinha)', 'Construção Correta (Norma Culta)'],
+            rows: [
+              ['Preferir', 'Prefiro café do que chá', 'Prefiro café A chá'],
+              ['Implicar', 'A falha implicou em atraso', 'A falha implicou atraso'],
+              ['Aspirar (desejar)', 'Ele aspira o sucesso profissional', 'Ele aspira AO sucesso profissional'],
+              ['Assistir (ver)', 'Assistimos o documentário naval', 'Assistimos AO documentário naval'],
+              ['Esquecer (pronominal)', 'Ele esqueceu-se o documento', 'Ele esqueceu-se DO documento']
+            ]
+          },
+          examTip: 'Verbo "preferir... do que" é a pegadinha número 1 da Cesgranrio em provas de nível superior. Elimine a alternativa que contiver "do que" com preferir imediatamente!'
+        }
+      ],
+      bancaTrap: 'Marcar que "implicou em demissão" está correto. A regência culta exige "implicou demissão" (sem a preposição "em").',
+      summaryCheatsheet: [
+        'Preferir X A Y (nunca "do que").',
+        'Implicar algo (nunca "implicar em").',
+        'Assistir AO jogo / Aspirar AO cargo (exigem "a").',
+        'Esqueci O livro / Esqueci-me DO livro.'
+      ]
+    }
+  },
+
+  // ==========================================
+  // NOVOS MÓDULOS ENRIQUECIDOS - INGLÊS
+  // ==========================================
+  {
+    id: 'ingles-avancado-concursos',
+    discipline: 'ingles',
+    title: '4. Interpretação Avançada & As 20 Pegadinhas Gramaticais em Inglês',
+    shortDescription: 'Voz passiva técnica, verbos modais, conectivos compostos e pronomes anafóricos.',
+    badge: 'Inglês Cesgranrio',
+    readTime: '8 min',
+    keyPoints: [
+      'Voz Passiva Técnica: textos científicos da Cesgranrio usam passiva extensivamente ("is being monitored", "were deployed", "has been achieved").',
+      'Verbos Modais: expressam obrigação rígida (Must), recomendação (Should), possibilidade/permissão (May, Might, Can).',
+      'Conectivos Compostos: "In spite of the fact that" (embora), "As long as" (contanto que), "On the contrary" (pelo contrário).',
+      'Referência Pronominal: questões que perguntam a quem se refere o pronome "it", "they", "which" ou "whose" no texto.'
+    ],
+    content: {
+      intro: 'Nas questões avançadas de inglês da Cesgranrio, a banca testa a capacidade de rastrear referências pronominais dentro de orações longas e interpretar a nuance de certeza ou incerteza dos verbos modais.',
+      subsections: [
+        {
+          subtitle: 'Os Verbos Modais e Seus Graus de Certeza na Prova',
+          text: 'A Cesgranrio adora formular alternativas afirmando que algo "é obrigatório" quando o texto original dizia apenas que "é uma possibilidade". Fique atento à distinção:\n\n• MUST / HAVE TO: Expressa OBRIGAÇÃO estrita ou certeza absoluta.\n  - Exemplo: "The pipeline operator MUST report any pressure anomaly immediately." (Obrigatório por lei/norma).\n\n• SHOULD / OUGHT TO: Expressa RECOMENDAÇÃO ou conselho ético/técnico.\n  - Exemplo: "Companies SHOULD invest in predictive maintenance." (É recomendável, mas não mandatário).\n\n• MAY / MIGHT / COULD: Expressa POSSIBILIDADE ou hipótese.\n  - Exemplo: "Corrosion MAY compromise the hull if left untreated." (Pode acontecer, mas não é uma certeza absoluta).',
+          comparisonTable: {
+            headers: ['Modal Verb', 'Significado / Força', 'Pegadinha Típica da Banca'],
+            rows: [
+              ['Must', 'Dever imperativo / Obrigação', 'A banca diz que é facultativo'],
+              ['Should', 'Deveria / Recomendação', 'A banca diz que é uma ordem legal'],
+              ['May / Might', 'Pode ser que / Hipótese', 'A banca diz que é uma certeza comprovada'],
+              ['Can', 'Capacidade física / Habilidade', 'Confundir com permissão formal']
+            ]
+          },
+          examTip: 'Atenção aos modais de possibilidade: se o texto diz "AI MAY reduce fuel consumption", a alternativa da prova que disser "AI WILL GUARANTEE zero fuel consumption" está ERRADA por extrapolação!'
+        },
+        {
+          subtitle: 'Pronomes Anafóricos: O que "Which", "It" e "They" estão substituindo?',
+          text: 'Questão tradicionalíssima da Cesgranrio: "In the sentence \'Sensors detect vibrations in the turbine, WHICH helps prevent sudden shutdowns\', the pronoun WHICH refers to:"\n\n• O pronome "which" acompanhado de vírgula frequentemente se refere a TODA A ORAÇÃO ANTERIOR (ou seja, o fato de os sensores detectarem vibrações) e não apenas à palavra "turbina"!\n• "They" e "Their" no plural substituem o substantivo no plural mais próximo que faça sentido sintático.\n• "It" e "Its" no singular substituem conceitos singulares abstratos ou objetos (ex: "the system", "the company", "the fleet").',
+          example: 'Texto de prova: "The company upgraded its fleet of vessels, which reduced carbon emissions by 18%." Pergunta da Cesgranrio: O que reduziu as emissões? Não foram apenas os navios isolados, mas o UPGRADE (a modernização) da frota!'
+        }
+      ],
+      bancaTrap: 'Achar que "which" sempre se refere estritamente à palavra anterior. Quando precedido por vírgula, ele frequentemente resume o fato inteiro da oração precedente.',
+      summaryCheatsheet: [
+        'Must = Obrigação inescapável | Should = Recomendação desejável.',
+        'May / Might = Hipótese / Possibilidade (não certeza).',
+        'Voz Passiva = "is performed by", "was installed by".',
+        'Referência Pronominal = Rastreie o sujeito sintático de volta no texto.'
+      ]
+    }
   }
 ];
