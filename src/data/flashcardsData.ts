@@ -1,144 +1,148 @@
 import { Flashcard } from '../types';
 
 export const FLASHCARDS_DATA: Flashcard[] = [
+  // ==========================================
+  // CIÊNCIA DE DADOS - ÊNFASE 8 (TRANSPETRO)
+  // ==========================================
   {
-    id: 'f1',
-    topic: 'Fundamentos',
-    front: 'O que diferencia Dado de Informação na pirâmide DIKW?',
-    back: 'O Dado é o fato bruto, sem significado isolado (ex: "39"). A Informação é o dado contextualizado e organizado (ex: "39°C de febre").',
-    macete: 'Macete: Dado é o tijolo; Informação é a parede construída.'
+    id: 'f-pln-1',
+    topic: 'PLN / NLP',
+    front: 'O que é TF-IDF e qual o papel do IDF?',
+    back: 'Term Frequency - Inverse Document Frequency. O IDF penaliza palavras comuns em todo o acervo e destaca palavras raras com alto poder discriminatório no documento.',
+    macete: 'Macete: IDF alto = Palavra rara e especial no texto!'
   },
   {
-    id: 'f2',
-    topic: 'Fundamentos',
-    front: 'Qual a ordem correta dos 4 níveis da pirâmide DIKW?',
-    back: '1. Dado (Data)\n2. Informação (Information)\n3. Conhecimento (Knowledge)\n4. Sabedoria (Wisdom)',
-    macete: 'Mnemônico: D-I-C-S (Dado, Informação, Conhecimento, Sabedoria).'
+    id: 'f-pln-2',
+    topic: 'PLN / NLP',
+    front: 'Qual a diferença central entre Stemming e Lemmatization no PLN?',
+    back: 'Stemming corta sufixos por regras brutas (gera radicais como "estud-"). Lemmatization analisa morfologia e gramática para achar a forma canônica do dicionário ("estudar").',
+    macete: 'Stemming = Corta na tesoura | Lema = Dicionário e gramática.'
   },
   {
-    id: 'f3',
-    topic: 'Estruturas',
-    front: 'Arquivos JSON e XML são estruturados, semiestruturados ou não estruturados?',
-    back: 'SEMIESTRUTURADOS! Não são tabelas relacionais SQL, mas contêm tags/chaves internas auto-descritivas.',
-    macete: 'Caiu JSON ou XML na prova? Resposta certa: Semiestruturado.'
+    id: 'f-pdi-1',
+    topic: 'Visão Computacional',
+    front: 'Em Redes Convolucionais (CNNs), qual a função da camada de MaxPooling?',
+    back: 'Reduz a dimensionalidade espacial (downsampling), diminui parâmetros computacionais, previne overfitting e confere tolerância a pequenas translações na imagem.',
+    macete: 'MaxPooling = Enxuga o tamanho mantendo apenas a ativação máxima.'
   },
   {
-    id: 'f4',
-    topic: 'Big Data',
-    front: 'Quais são os 5 "Vs" fundamentais do Big Data?',
-    back: 'Volume, Velocidade, Variedade, Veracidade e Valor.',
-    macete: 'Mnemônico dos 5Vs: "Vo-Ve-Va-Ve-Va" (Volume, Velocidade, Variedade, Veracidade, Valor).'
+    id: 'f-pdi-2',
+    topic: 'Visão Computacional',
+    front: 'Para detectar trincas e bordas em dutos/navios, que tipo de filtro espacial é usado?',
+    back: 'Filtro passa-altas (ex: Sobel, Prewitt, Canny). Filtros passa-baixas (ex: Gaussiano) servem para suavizar ruído.',
+    macete: 'Passa-Altas = Borda e trinca viva | Passa-Baixas = Suaviza e embaça o ruído.'
   },
   {
-    id: 'f5',
-    topic: 'Big Data',
-    front: 'Qual "V" de Big Data trata da confiabilidade e qualidade dos dados?',
-    back: 'VERACIDADE. Trata de filtrar ruídos, inconsistências e garantir que o dado é verdadeiro.',
-    macete: 'Veracidade = Verdade e integridade dos dados.'
+    id: 'f-est-1',
+    topic: 'Estatística',
+    front: 'Quando rejeitamos a Hipótese Nula (H0) em um Teste de Hipótese?',
+    back: 'Quando o P-valor é MENOR que o nível de significância alfa (geralmente 0,05). Significa que a diferença observada é estatisticamente significativa e não mero acaso.',
+    macete: 'Macete: "P-valor baixo (< 0,05), H0 vai para o espaço!"'
   },
   {
-    id: 'f6',
-    topic: 'Arquitetura',
+    id: 'f-fisc-1',
+    topic: 'Fiscalização de Contratos',
+    front: 'Qual a diferença entre Fiscal Técnico e Fiscal Administrativo na Transpetro?',
+    back: 'Fiscal Técnico: confere o objeto, código, entregas, qualidade e SLA. Fiscal Administrativo: confere guias de FGTS, INSS, certidões trabalhistas e notas fiscais.',
+    macete: 'Técnico cuida do produto/IA | Administrativo cuida do FGTS e certidões.'
+  },
+  {
+    id: 'f-dw-1',
+    topic: 'Engenharia de Dados',
     front: 'Data Warehouse vs Data Lake: Quem usa Schema-on-Write e quem usa Schema-on-Read?',
-    back: 'Data Warehouse usa Schema-on-Write (esquema definido antes de salvar, dados estruturados limpos).\nData Lake usa Schema-on-Read (dados brutos gravados primeiro, estrutura interpretada na leitura).',
-    macete: 'DW = Write (escrita arrumada) | Lake = Read (lago livre para nadar).'
+    back: 'Data Warehouse usa Schema-on-Write (estruturado e limpo antes de salvar). Data Lake usa Schema-on-Read (dados brutos gravados primeiro, interpretados na leitura).',
+    macete: 'DW = Write (escrita arrumada) | Lake = Read (lago com água bruta).'
   },
   {
-    id: 'f7',
-    topic: 'Arquitetura',
-    front: 'Qual a diferença central entre ETL e ELT?',
-    back: 'No ETL, a transformação é feita antes de carregar no repositório final. No ELT, os dados brutos são carregados primeiro no lago/nuvem e a transformação é feita sob demanda.',
-    macete: 'Olhe a ordem das letras: T antes do L = transforma antes; L antes do T = carrega antes.'
+    id: 'f-crisp-1',
+    topic: 'CRISP-DM',
+    front: 'Qual fase do CRISP-DM consome mais tempo e esforço do cientista de dados?',
+    back: 'PREPARAÇÃO DOS DADOS (Data Preparation) — consome de 70% a 80% do esforço do projeto.',
+    macete: 'Pegadinha clássica: Não é modelagem, é preparação!'
   },
   {
-    id: 'f8',
-    topic: 'Metodologias',
-    front: 'Qual é a fase do CRISP-DM que mais consome tempo e esforço do cientista de dados?',
-    back: 'PREPARAÇÃO DOS DADOS (Data Preparation) — consome cerca de 70% a 80% de todo o tempo do projeto.',
-    macete: 'Pegadinha mortal: NÃO é modelagem! É preparação/limpeza de dados.'
-  },
-  {
-    id: 'f9',
-    topic: 'Metodologias',
-    front: 'Quais são as 6 fases do CRISP-DM na sequência?',
-    back: '1. Entendimento do Negócio\n2. Entendimento dos Dados\n3. Preparação dos Dados\n4. Modelagem\n5. Avaliação\n6. Implantação (Deployment)',
-    macete: 'Mnemônico: N-D-P-M-A-I (Negócio, Dados, Preparo, Modelo, Avaliação, Implantação).'
-  },
-  {
-    id: 'f10',
-    topic: 'Pré-processamento',
-    front: 'Quando há valores ausentes (missing) e presença de outliers fortes, qual medida estatística é melhor para imputação: Média ou Mediana?',
-    back: 'MEDIANA! Porque a média é puxada pelos valores extremos (outliers), enquanto a mediana é resistente.',
-    macete: 'Outlier no meio? Média não, Mediana sim!'
-  },
-  {
-    id: 'f11',
-    topic: 'Pré-processamento',
-    front: 'Qual a diferença entre Normalização (Min-Max) e Padronização (Z-score)?',
-    back: 'Normalização comprime os dados no intervalo fixo [0, 1].\nPadronização transforma a distribuição para ter Média = 0 e Desvio Padrão = 1 (sem limites fixos).',
-    macete: 'Normaliza = limita a 0 e 1 | Padroniza = média zero e desvio um.'
-  },
-  {
-    id: 'f12',
+    id: 'f-over-1',
     topic: 'Machine Learning',
-    front: 'Qual a diferença entre tarefas de Classificação e Regressão no aprendizado supervisionado?',
-    back: 'Classificação prevê um rótulo discreto/classe (ex: Spam/Não Spam, Doente/Sadio).\nRegressão prevê um valor numérico contínuo (ex: Preço da casa R$, Salário, Temperatura).',
-    macete: 'Classificação = Categoria | Regressão = R$ / Régua de números.'
+    front: 'O que é Overfitting e qual regularização pode zerar variáveis (Lasso ou Ridge)?',
+    back: 'Overfitting é memorizar o treino e falhar nos dados novos. A regularização LASSO (L1) pode zerar coeficientes e selecionar features. O Ridge (L2) apenas encolhe.',
+    macete: 'Lasso (L1) = Laça e zera a variável inútil.'
+  },
+
+  // ==========================================
+  // PORTUGUÊS - BANCA CESGRANRIO
+  // ==========================================
+  {
+    id: 'f-port-1',
+    topic: 'Português Cesgranrio',
+    front: 'O que significa a conjunção "CONQUANTO" que a Cesgranrio sempre cobra?',
+    back: 'Significa "EMBORA" ou "AINDA QUE" (conjunção concessiva). Indica um obstáculo que não impede a oração principal.',
+    macete: 'CONQUANTO = EMBORA (Concessão). Não confunda com Porquanto (= porque).'
   },
   {
-    id: 'f13',
-    topic: 'Machine Learning',
-    front: 'Regressão Logística é usada para Classificação ou para Regressão numérica?',
-    back: 'CLASSIFICAÇÃO! Ela calcula probabilidades binárias usando a curva sigmoide para prever classes (ex: 0 ou 1, Sim ou Não).',
-    macete: 'Regressão Logística tem nome de regressão, mas o trabalho dela é CLASSIFICAR!'
+    id: 'f-port-2',
+    topic: 'Português Cesgranrio',
+    front: 'O que significa "PORQUANTO"?',
+    back: 'Significa "PORQUE", "VISTO QUE" ou "JÁ QUE" (conjunção causal ou explicativa).',
+    macete: 'Porquanto = Porque | Conquanto = Embora.'
   },
   {
-    id: 'f14',
-    topic: 'Machine Learning',
-    front: 'O algoritmo K-Means é supervisionado ou não supervisionado? E para que serve?',
-    back: 'NÃO SUPERVISIONADO. Serve para CLUSTERIZAÇÃO (agrupamento de instâncias semelhantes sem rótulo prévio).',
-    macete: 'K-Means = Não supervisionado + Clusters (K grupos definidos pelo usuário).'
+    id: 'f-port-3',
+    topic: 'Português Cesgranrio',
+    front: 'O verbo HAVER no sentido de existir ou indicando tempo pode ir para o plural?',
+    back: 'NUNCA! É impessoal e fica na 3ª pessoa do SINGULAR ("Havia dez navios", "Houve problemas"). Em locução verbal, o auxiliar também fica singular ("Deve haver falhas").',
+    macete: 'Haver (existir) não tem plural: sempre "Havia", nunca "Haviam".'
   },
   {
-    id: 'f15',
-    topic: 'Desempenho',
-    front: 'O que é Overfitting (Sobreajuste)?',
-    back: 'Ocorre quando o modelo decora os dados de treino com perfeição (inclusive ruídos), mas erra feio em dados novos de teste. Possui Baixo Viés e Alta Variância.',
-    macete: 'Overfitting = O modelo "decoreba" que tira 10 no simulado e zera na prova.'
+    id: 'f-port-4',
+    topic: 'Português Cesgranrio',
+    front: 'Quais os principais casos em que a crase é terminantemente PROIBIDA?',
+    back: '1. Antes de verbo;\n2. Antes de palavra masculina;\n3. Antes de palavras repetidas (dia a dia);\n4. Antes de pronomes de tratamento e indefinidos;\n5. Com "a" no singular diante de palavra no plural.',
+    macete: 'Antes de verbo ou homem, crase não come!'
   },
   {
-    id: 'f16',
-    topic: 'Desempenho',
-    front: 'Qual técnica de regularização pode zerar os coeficientes de features irrelevantes: Lasso (L1) ou Ridge (L2)?',
-    back: 'LASSO (L1)! O Lasso zera coeficientes e faz seleção automática de features. O Ridge (L2) apenas encolhe os coeficientes próximos de zero.',
-    macete: 'Lasso = "Laça" e elimina a variável (Zera).'
+    id: 'f-port-5',
+    topic: 'Português Cesgranrio',
+    front: 'Qual a diferença entre "À medida que" e "Na medida em que"?',
+    back: '"À medida que" indica PROPORÇÃO (à proporção que). "Na medida em que" indica CAUSA (visto que, já que).',
+    macete: 'À medida que = Proporção | Na medida em que = Causa.'
+  },
+
+  // ==========================================
+  // INGLÊS - BANCA CESGRANRIO
+  // ==========================================
+  {
+    id: 'f-ing-1',
+    topic: 'Inglês Cesgranrio',
+    front: 'O que significam as linking words "HOWEVER" e "NEVERTHELESS"?',
+    back: 'Significam "CONTUDO", "TODAVIA", "NO ENTANTO" ou "PORÉM" (expressam oposição/contraste).',
+    macete: 'However = Contudo/Porém | Sinônimo perfeito: Nevertheless.'
   },
   {
-    id: 'f17',
-    topic: 'Métricas',
-    front: 'Na Matriz de Confusão, o que é o Erro Tipo I e o Erro Tipo II?',
-    back: 'Erro Tipo I = Falso Positivo (FP) - alarme falso (ex: condenar um inocente).\nErro Tipo II = Falso Negativo (FN) - omissão grave (ex: liberar o culpado ou dizer que o doente está sadio).',
-    macete: 'Tipo I = Falso Positivo | Tipo II = Falso Negativo (II risquinhos = FN).'
+    id: 'f-ing-2',
+    topic: 'Inglês Cesgranrio',
+    front: 'O que significa o falso cognato "ACTUALLY" em inglês?',
+    back: 'Significa "NA VERDADE" ou "DE FATO" (really, in fact). NÃO significa atualmente (atualmente é "currently").',
+    macete: 'Actually = Na verdade! Currently = Atualmente.'
   },
   {
-    id: 'f18',
-    topic: 'Métricas',
-    front: 'O que é o Paradoxo da Acurácia?',
-    back: 'Em bases desbalanceadas (ex: 99% de não-fraudes e 1% de fraudes), um modelo que sempre chuta a classe majoritária tem 99% de acurácia, mas é 100% inútil para pegar fraudes.',
-    macete: 'Base desbalanceada? NUNCA confie apenas na Acurácia!'
+    id: 'f-ing-3',
+    topic: 'Inglês Cesgranrio',
+    front: 'O que significa o falso cognato "EVENTUALLY"?',
+    back: 'Significa "COM O TEMPO", "AO FINAL", "NO FIM DAS CONTAS". NÃO significa de vez em quando (ocasionalmente é "occasionally").',
+    macete: 'Eventually = No final das contas.'
   },
   {
-    id: 'f19',
-    topic: 'Métricas',
-    front: 'Qual a diferença prática entre Precisão e Recall (Sensibilidade)?',
-    back: 'Precisão = VP / (VP + FP) → De tudo que o modelo disse ser positivo, quanto ele acertou?\nRecall = VP / (VP + FN) → De todos os casos reais positivos do mundo, quantos o modelo achou?',
-    macete: 'Recall busca não deixar passar nenhum doente/fraude (reduz FN). Precisão busca não dar alarme falso (reduz FP).'
+    id: 'f-ing-4',
+    topic: 'Inglês Cesgranrio',
+    front: 'No contexto de óleo e gás da Transpetro, o que significa "PIPELINE" e "VESSEL"?',
+    back: 'Pipeline = Duto / Oleoduto / Gasoduto. Vessel = Navio / Embarcação / Petroleiro.',
+    macete: 'Pipeline = Duto | Vessel = Navio petroleiro.'
   },
   {
-    id: 'f20',
-    topic: 'Métricas',
-    front: 'O que é o F1-Score?',
-    back: 'É a média harmônica entre a Precisão e o Recall. É a métrica ideal quando precisamos de equilíbrio entre Precisão e Recall em dados desbalanceados.',
-    macete: 'F1-Score = 2 * (Precisão * Recall) / (Precisão + Recall).'
+    id: 'f-ing-5',
+    topic: 'Inglês Cesgranrio',
+    front: 'O que significam "FURTHERMORE" e "MOREOVER"?',
+    back: 'Significam "ALÉM DISSO", "ADEMAIIS" (conectivos de adição de ideias).',
+    macete: 'Furthermore / Moreover = Além disso (+ soma de ideias).'
   }
 ];

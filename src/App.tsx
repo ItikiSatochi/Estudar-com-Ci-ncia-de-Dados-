@@ -6,6 +6,7 @@ import { FLASHCARDS_DATA } from './data/flashcardsData';
 import { GLOSSARY_DATA } from './data/glossaryData';
 import { STUDY_PLAN_DATA } from './data/studyPlanData';
 
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { ModuleViewer } from './components/ModuleViewer';
 import { ConfusionMatrixSimulator } from './components/ConfusionMatrixSimulator';
@@ -14,24 +15,30 @@ import { FlashcardsView } from './components/FlashcardsView';
 import { GlossaryView } from './components/GlossaryView';
 import { StudyPlanView } from './components/StudyPlanView';
 import { SearchModal } from './components/SearchModal';
+import { EnglishDecoderTool } from './components/EnglishDecoderTool';
+import { BeginnerGuideModal } from './components/BeginnerGuideModal';
 
 import { 
-  BookOpen, 
-  Calculator, 
-  HelpCircle, 
+  Ship,
   Sparkles, 
-  BookA, 
-  Calendar,
-  CheckCircle2,
+  ArrowRight,
+  BookText,
+  Languages,
+  Database,
+  Calculator,
   Trophy,
-  Lightbulb,
-  ArrowRight
+  Calendar,
+  Compass,
+  Lightbulb
 } from 'lucide-react';
 
-export default function App() {
-  const [currentTab, setCurrentTab] = useState<TabType>('modulos');
+function AppContent() {
+  const { isClean } = useTheme();
+  const [currentTab, setCurrentTab] = useState<TabType>('cienciadados');
   const [simuladoFilterTopic, setSimuladoFilterTopic] = useState<string | undefined>(undefined);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [isBeginnerGuideOpen, setIsBeginnerGuideOpen] = useState<boolean>(false);
+  const [englishSubTab, setEnglishSubTab] = useState<'decifrador' | 'modulos'>('decifrador');
 
   // Global keyboard shortcut for search
   useEffect(() => {
@@ -57,7 +64,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${
+      isClean 
+        ? 'bg-slate-100 text-slate-800 selection:bg-emerald-500 selection:text-white' 
+        : 'bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white'
+    }`}>
       {/* Top Navbar */}
       <Navbar
         currentTab={currentTab}
@@ -67,38 +78,111 @@ export default function App() {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onOpenSearch={() => setIsSearchOpen(true)}
+        onOpenBeginnerGuide={() => setIsBeginnerGuideOpen(true)}
       />
 
-      {/* Hero Notification Ribbon */}
-      <div className="bg-gradient-to-r from-indigo-900/40 via-blue-900/40 to-slate-900/50 border-b border-indigo-950/80 py-2.5 px-4 text-xs text-center text-slate-300">
-        <span className="inline-flex items-center gap-1.5 flex-wrap justify-center">
-          <span className="bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-bold uppercase text-[10px] border border-indigo-500/30">
-            Foco no Concurso
+      {/* Target Exam Notice Banner */}
+      <div className={`py-2 px-4 text-xs text-center border-b transition-colors ${
+        isClean
+          ? 'bg-emerald-50/80 border-emerald-200 text-slate-700'
+          : 'bg-gradient-to-r from-emerald-950/60 via-slate-900 to-indigo-950/60 border-emerald-900/40 text-slate-300'
+      }`}>
+        <span className="inline-flex items-center gap-2 flex-wrap justify-center">
+          <span className={`px-2 py-0.5 rounded font-extrabold uppercase text-[10px] border flex items-center gap-1 ${
+            isClean
+              ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+              : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+          }`}>
+            <Ship className="w-3 h-3" /> Transpetro • Cesgranrio
           </span>
-          <span>Sua prova é no próximo mês? <strong>Não tente virar programador agora:</strong> foque nos 9 pilares conceituais, pegadinhas de banca e questões comentadas.</span>
+          <span>
+            1ª vez prestando concurso? Foque nos conceitos práticos de <strong>Ênfase 8: Ciência de Dados</strong>, <strong>Português</strong> e no <strong>Decifrador de Inglês</strong> sem tradutor!
+          </span>
           <button
-            onClick={() => setCurrentTab('plano')}
-            className="text-indigo-400 hover:text-indigo-300 font-semibold underline inline-flex items-center gap-0.5 ml-1"
+            onClick={() => setIsBeginnerGuideOpen(true)}
+            className="text-emerald-600 dark:text-emerald-400 font-bold underline inline-flex items-center gap-0.5 ml-1 hover:opacity-80"
           >
-            Ver Cronograma de 30 Dias <ArrowRight className="w-3 h-3" />
+            Abrir Dicas para Iniciantes <Lightbulb className="w-3 h-3" />
           </button>
         </span>
       </div>
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {currentTab === 'modulos' && (
+        {/* Module Viewer for Data Science */}
+        {currentTab === 'cienciadados' && (
           <ModuleViewer
             modules={MODULES_DATA}
+            disciplineFilter="cienciadados"
             onOpenSimuladoWithTopic={handleOpenSimuladoWithTopic}
             onOpenMatrixSimulator={handleOpenMatrixSimulator}
           />
         )}
 
+        {/* Module Viewer for Portuguese */}
+        {currentTab === 'portugues' && (
+          <ModuleViewer
+            modules={MODULES_DATA}
+            disciplineFilter="portugues"
+            onOpenSimuladoWithTopic={handleOpenSimuladoWithTopic}
+          />
+        )}
+
+        {/* English Tab: Dual Mode (Decifrador Sem Tradutor vs Módulos Teóricos) */}
+        {currentTab === 'ingles' && (
+          <div className="space-y-6">
+            <div className={`p-3 rounded-2xl border flex items-center justify-between gap-3 ${
+              isClean ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-900 border-slate-800 shadow-md'
+            }`}>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="font-bold text-slate-500 dark:text-slate-400">Modo de Estudo de Inglês:</span>
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => setEnglishSubTab('decifrador')}
+                    className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
+                      englishSubTab === 'decifrador'
+                        ? 'bg-emerald-600 text-white shadow'
+                        : isClean
+                        ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" /> 🕵️ Decifrador Sem Tradutor (Recomendado)
+                  </button>
+                  <button
+                    onClick={() => setEnglishSubTab('modulos')}
+                    className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
+                      englishSubTab === 'modulos'
+                        ? 'bg-emerald-600 text-white shadow'
+                        : isClean
+                        ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    }`}
+                  >
+                    <BookText className="w-3.5 h-3.5" /> 📚 Módulos Teóricos & Conectivos
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {englishSubTab === 'decifrador' ? (
+              <EnglishDecoderTool />
+            ) : (
+              <ModuleViewer
+                modules={MODULES_DATA}
+                disciplineFilter="ingles"
+                onOpenSimuladoWithTopic={handleOpenSimuladoWithTopic}
+              />
+            )}
+          </div>
+        )}
+
+        {/* Confusion Matrix Simulator */}
         {currentTab === 'matriz' && (
           <ConfusionMatrixSimulator />
         )}
 
+        {/* Contest Exam Simulator */}
         {currentTab === 'simulado' && (
           <QuizSimulado
             questions={QUESTIONS_DATA}
@@ -107,18 +191,27 @@ export default function App() {
           />
         )}
 
+        {/* Flashcards View */}
         {currentTab === 'flashcards' && (
           <FlashcardsView cards={FLASHCARDS_DATA} />
         )}
 
+        {/* Glossary View */}
         {currentTab === 'glossario' && (
           <GlossaryView terms={GLOSSARY_DATA} />
         )}
 
+        {/* 30-Day Plan */}
         {currentTab === 'plano' && (
           <StudyPlanView days={STUDY_PLAN_DATA} />
         )}
       </main>
+
+      {/* Beginner Guide Modal */}
+      <BeginnerGuideModal
+        isOpen={isBeginnerGuideOpen}
+        onClose={() => setIsBeginnerGuideOpen(false)}
+      />
 
       {/* Global Search Modal */}
       <SearchModal
@@ -129,7 +222,8 @@ export default function App() {
         flashcards={FLASHCARDS_DATA}
         glossary={GLOSSARY_DATA}
         onSelectModule={(modId) => {
-          setCurrentTab('modulos');
+          const mod = MODULES_DATA.find((m) => m.id === modId);
+          if (mod) setCurrentTab(mod.discipline);
         }}
         onSelectSimulado={(topicId) => {
           setSimuladoFilterTopic(topicId);
@@ -140,18 +234,32 @@ export default function App() {
       />
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-900 bg-slate-950 py-6 text-xs text-slate-500 text-center">
+      <footer className={`mt-auto border-t py-6 text-xs text-center transition-colors ${
+        isClean ? 'bg-white border-slate-200 text-slate-500' : 'bg-slate-950 border-slate-900 text-slate-500'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>
-            <strong>DataConcurso</strong> — Ciência de Dados Simplificada para Concursos Públicos.
+            <strong>Transpetro Ciência de Dados</strong> — Preparatório Didático Cesgranrio (Ênfase 8).
           </p>
-          <div className="flex items-center gap-4 text-slate-400">
-            <span>Foco Cebraspe, FGV, FCC, Cesgranrio e Vunesp</span>
+          <div className="flex items-center gap-3">
+            <span>Português</span>
             <span>•</span>
-            <span>Rumo à Aprovação! 🎯</span>
+            <span>Inglês Instrumental</span>
+            <span>•</span>
+            <span>Ciência de Dados</span>
+            <span>•</span>
+            <span>Rumo à Transpetro! 🚢</span>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }

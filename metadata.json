@@ -1,6 +1,6 @@
 {
-  "name": "DataConcurso - Ciência de Dados para Concursos",
-  "description": "Plataforma interativa e simplificada para dominar os principais tópicos de Ciência de Dados para concursos públicos em 30 dias.",
+  "name": "Transpetro Ciência de Dados - Preparatório Cesgranrio",
+  "description": "Preparatório focado para o concurso da Transpetro (Banca Cesgranrio) - Ênfase 8: Ciência de Dados, Língua Portuguesa e Língua Inglesa.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

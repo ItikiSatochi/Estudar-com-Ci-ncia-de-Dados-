@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Flashcard } from '../types';
+import { useTheme } from '../context/ThemeContext';
 import { 
   Sparkles, 
   RotateCw, 
@@ -18,6 +19,7 @@ interface FlashcardsViewProps {
 }
 
 export function FlashcardsView({ cards }: FlashcardsViewProps) {
+  const { isClean } = useTheme();
   const [currentIdx, setCurrentIdx] = useState<number>(0);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
   const [selectedTopic, setSelectedTopic] = useState<string>('all');
@@ -73,13 +75,17 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
 
   if (!currentCard) {
     return (
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 text-center space-y-4">
-        <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
-        <h3 className="text-xl font-bold text-white">Todos os cartões deste filtro foram dominados!</h3>
-        <p className="text-sm text-slate-400">Excelente trabalho na memorização.</p>
+      <div className={`p-8 rounded-3xl border text-center space-y-4 ${
+        isClean ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-900 border-slate-800'
+      }`}>
+        <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />
+        <h3 className={`text-xl font-bold ${isClean ? 'text-slate-900' : 'text-white'}`}>
+          Todos os cartões deste filtro foram dominados!
+        </h3>
+        <p className={`text-sm ${isClean ? 'text-slate-600' : 'text-slate-400'}`}>Excelente trabalho na memorização.</p>
         <button
           onClick={() => setSelectedTopic('all')}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-semibold"
+          className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-semibold"
         >
           Ver Todos os Flashcards
         </button>
@@ -92,23 +98,29 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       {/* Header & Controls */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className={`p-4 sm:p-6 rounded-3xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors ${
+        isClean ? 'bg-white border-slate-200 shadow-sm text-slate-800' : 'bg-slate-900 border-slate-800 shadow-md text-slate-100'
+      }`}>
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="p-1.5 bg-purple-500/20 text-purple-400 rounded-lg">
+            <span className={`p-1.5 rounded-lg ${isClean ? 'bg-emerald-600 text-white' : 'bg-purple-500/20 text-purple-400'}`}>
               <Sparkles className="w-5 h-5" />
             </span>
-            <h3 className="text-xl font-bold text-white">Flashcards de Memorização Rápida</h3>
+            <h3 className={`text-xl font-bold ${isClean ? 'text-slate-900' : 'text-white'}`}>
+              Flashcards de Memorização Rápida
+            </h3>
           </div>
-          <p className="text-xs text-slate-400">
-            Fixe conceitos e macetes mnemônicos essenciais para a véspera da prova.
+          <p className={`text-xs ${isClean ? 'text-slate-600' : 'text-slate-400'}`}>
+            Fixe conceitos e macetes mnemônicos essenciais da Cesgranrio para a véspera da prova.
           </p>
         </div>
 
         {/* Progress gauge */}
-        <div className="bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700/80 text-right shrink-0">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block">Dominados</span>
-          <span className="text-sm font-extrabold text-emerald-400">
+        <div className={`px-4 py-2 rounded-2xl border text-right shrink-0 ${
+          isClean ? 'bg-slate-50 border-slate-200' : 'bg-slate-800/80 border-slate-700/80'
+        }`}>
+          <span className={`text-[10px] uppercase font-bold block ${isClean ? 'text-slate-500' : 'text-slate-400'}`}>Dominados</span>
+          <span className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
             {masteredTotal} / {cards.length} ({progressPercent}%)
           </span>
         </div>
@@ -117,7 +129,7 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
       {/* Filter and Nav */}
       <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2">
-          <span className="text-slate-400 font-semibold">Tópico:</span>
+          <span className={`font-semibold ${isClean ? 'text-slate-600' : 'text-slate-400'}`}>Tópico:</span>
           <select
             value={selectedTopic}
             onChange={(e) => {
@@ -125,7 +137,9 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
               setCurrentIdx(0);
               setIsFlipped(false);
             }}
-            className="bg-slate-800 border border-slate-700 text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none"
+            className={`rounded-lg px-2.5 py-1.5 focus:outline-none border ${
+              isClean ? 'bg-white border-slate-300 text-slate-800' : 'bg-slate-800 border-slate-700 text-slate-200'
+            }`}
           >
             <option value="all">Todos os Tópicos ({cards.length})</option>
             <option value="pendentes">Apenas Não Dominados</option>
@@ -137,7 +151,7 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
           </select>
         </div>
 
-        <div className="text-slate-400 font-mono">
+        <div className={`font-mono ${isClean ? 'text-slate-600' : 'text-slate-400'}`}>
           Cartão <strong>{currentIdx + 1}</strong> de <strong>{filteredCards.length}</strong>
         </div>
       </div>
@@ -145,15 +159,21 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
       {/* 3D Flip Card */}
       <div
         onClick={handleFlip}
-        className="w-full min-h-[340px] bg-slate-900 border-2 border-slate-700/80 hover:border-indigo-500/60 rounded-3xl p-6 sm:p-10 shadow-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between relative group select-none"
+        className={`w-full min-h-[340px] rounded-3xl p-6 sm:p-10 border-2 shadow-xl cursor-pointer transition-all duration-300 flex flex-col justify-between relative group select-none ${
+          isClean
+            ? 'bg-white border-slate-300 hover:border-emerald-500 text-slate-800 shadow-slate-200/50'
+            : 'bg-slate-900 border-slate-700/80 hover:border-emerald-500/60 text-white shadow-2xl'
+        }`}
       >
         {/* Top Badges */}
         <div className="flex items-center justify-between">
-          <span className="px-3 py-1 bg-indigo-500/20 text-indigo-300 font-bold text-xs rounded-lg border border-indigo-500/30">
+          <span className={`px-3 py-1 font-bold text-xs rounded-lg border ${
+            isClean ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
+          }`}>
             {currentCard.topic}
           </span>
-          <div className="flex items-center gap-2 text-xs text-slate-400">
-            <span className="flex items-center gap-1 group-hover:text-indigo-400 transition">
+          <div className={`flex items-center gap-2 text-xs ${isClean ? 'text-slate-500' : 'text-slate-400'}`}>
+            <span className="flex items-center gap-1 group-hover:text-emerald-500 transition">
               <RotateCw className="w-3.5 h-3.5" /> Clique para virar
             </span>
           </div>
@@ -163,27 +183,39 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
         <div className="my-auto py-6 text-center">
           {!isFlipped ? (
             <div className="space-y-3">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest block">
+              <span className={`text-xs font-semibold uppercase tracking-widest block ${
+                isClean ? 'text-slate-500' : 'text-slate-400'
+              }`}>
                 Pergunta / Conceito:
               </span>
-              <p className="text-xl sm:text-2xl font-bold text-white leading-relaxed">
+              <p className={`text-xl sm:text-2xl font-bold leading-relaxed ${
+                isClean ? 'text-slate-900' : 'text-white'
+              }`}>
                 {currentCard.front}
               </p>
             </div>
           ) : (
             <div className="space-y-4 text-left">
-              <span className="text-xs font-semibold text-emerald-400 uppercase tracking-widest block">
+              <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">
                 Resposta Direta para a Prova:
               </span>
-              <p className="text-base sm:text-lg text-slate-100 font-medium whitespace-pre-line leading-relaxed">
+              <p className={`text-base sm:text-lg font-medium whitespace-pre-line leading-relaxed ${
+                isClean ? 'text-slate-800' : 'text-slate-100'
+              }`}>
                 {currentCard.back}
               </p>
 
               {currentCard.macete && (
-                <div className="mt-4 p-3 bg-amber-500/15 border border-amber-500/30 rounded-xl text-amber-200 text-xs sm:text-sm flex items-start gap-2">
-                  <Lightbulb className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <div className={`mt-4 p-3.5 rounded-2xl border text-xs sm:text-sm flex items-start gap-2 ${
+                  isClean
+                    ? 'bg-amber-50 border-amber-300 text-amber-950'
+                    : 'bg-amber-500/15 border-amber-500/30 text-amber-200'
+                }`}>
+                  <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-amber-300">Macete Mnemônico: </strong>
+                    <strong className={isClean ? 'text-amber-900 font-bold' : 'text-amber-300'}>
+                      Macete Mnemônico da Cesgranrio: 
+                    </strong>{' '}
                     {currentCard.macete}
                   </div>
                 </div>
@@ -193,12 +225,14 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
         </div>
 
         {/* Card Footer Status */}
-        <div className="flex items-center justify-between pt-4 border-t border-slate-800 text-xs">
-          <span className="text-slate-500">
+        <div className={`flex items-center justify-between pt-4 border-t text-xs ${
+          isClean ? 'border-slate-200' : 'border-slate-800'
+        }`}>
+          <span className={isClean ? 'text-slate-400' : 'text-slate-500'}>
             {isFlipped ? 'Mostrando o Verso' : 'Mostrando a Frente'}
           </span>
           {isCurrentMastered && (
-            <span className="text-emerald-400 font-bold flex items-center gap-1">
+            <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
               <CheckCircle2 className="w-4 h-4" /> Cartão Dominado!
             </span>
           )}
@@ -209,7 +243,11 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
       <div className="flex items-center justify-between gap-3">
         <button
           onClick={handlePrev}
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition"
+          className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold rounded-xl border transition ${
+            isClean
+              ? 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'
+              : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+          }`}
         >
           <ArrowLeft className="w-4 h-4" /> Anterior
         </button>
@@ -219,25 +257,22 @@ export function FlashcardsView({ cards }: FlashcardsViewProps) {
             onClick={() => toggleMastered(currentCard.id)}
             className={`px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border ${
               isCurrentMastered
-                ? 'bg-emerald-950/40 text-emerald-300 border-emerald-500/40'
+                ? isClean
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                  : 'bg-emerald-950/40 text-emerald-300 border-emerald-500/40'
+                : isClean
+                ? 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300'
                 : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
             }`}
           >
-            {isCurrentMastered ? (
-              <>
-                <Check className="w-4 h-4 text-emerald-400" /> Já Decorei!
-              </>
-            ) : (
-              <>
-                <Check className="w-4 h-4" /> Marcar como Já Decorei
-              </>
-            )}
+            <Check className="w-4 h-4 text-emerald-500" />
+            {isCurrentMastered ? 'Já Decorei!' : 'Marcar como Já Decorei'}
           </button>
         </div>
 
         <button
           onClick={handleNext}
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow"
+          className="flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition shadow"
         >
           Próximo <ArrowRight className="w-4 h-4" />
         </button>

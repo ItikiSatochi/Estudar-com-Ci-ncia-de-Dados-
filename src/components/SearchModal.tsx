@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { ModuleSection, Question, Flashcard, GlossaryTerm } from '../types';
+import { useTheme } from '../context/ThemeContext';
 import { Search, X, BookOpen, HelpCircle, Sparkles, BookA, ArrowRight } from 'lucide-react';
 
 interface SearchModalProps {
@@ -27,6 +28,7 @@ export function SearchModal({
   onSelectGlossary,
   onSelectFlashcards
 }: SearchModalProps) {
+  const { isClean } = useTheme();
   const [query, setQuery] = useState('');
 
   // Handle ESC key
@@ -88,29 +90,35 @@ export function SearchModal({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-start justify-center p-4 pt-16 sm:pt-24 animate-in fade-in duration-150">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+      <div className={`w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh] border transition-colors ${
+        isClean ? 'bg-white border-slate-200 text-slate-800' : 'bg-slate-900 border-slate-800 text-slate-100'
+      }`}>
         {/* Search Input Bar */}
-        <div className="p-4 border-b border-slate-800 flex items-center gap-3">
-          <Search className="w-5 h-5 text-indigo-400 shrink-0" />
+        <div className={`p-4 border-b flex items-center gap-3 ${isClean ? 'border-slate-200 bg-slate-50' : 'border-slate-800'}`}>
+          <Search className="w-5 h-5 text-emerald-500 shrink-0" />
           <input
             type="text"
             autoFocus
             placeholder="Digite para buscar qualquer termo (ex: K-Means, Overfitting, Recall, ETL)..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-transparent text-slate-100 placeholder-slate-500 text-sm sm:text-base focus:outline-none"
+            className={`w-full bg-transparent text-sm sm:text-base focus:outline-none ${
+              isClean ? 'text-slate-900 placeholder-slate-400' : 'text-slate-100 placeholder-slate-500'
+            }`}
           />
           {query && (
             <button
               onClick={() => setQuery('')}
-              className="text-slate-400 hover:text-white"
+              className={isClean ? 'text-slate-400 hover:text-slate-700' : 'text-slate-400 hover:text-white'}
             >
               <X className="w-4 h-4" />
             </button>
           )}
           <button
             onClick={onClose}
-            className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded-lg border border-slate-700"
+            className={`text-xs px-2 py-1 rounded-lg border ${
+              isClean ? 'bg-white hover:bg-slate-100 text-slate-600 border-slate-300' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
+            }`}
           >
             ESC
           </button>
@@ -119,7 +127,7 @@ export function SearchModal({
         {/* Results List */}
         <div className="overflow-y-auto p-4 space-y-4 flex-1">
           {!results ? (
-            <div className="py-8 text-center text-slate-500 text-sm">
+            <div className={`py-8 text-center text-sm ${isClean ? 'text-slate-400' : 'text-slate-500'}`}>
               Digite pelo menos 2 letras para pesquisar em toda a plataforma.
             </div>
           ) : (
@@ -127,8 +135,10 @@ export function SearchModal({
               {/* Modules Results */}
               {results.modules.length > 0 && (
                 <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <BookOpen className="w-3.5 h-3.5 text-indigo-400" /> Módulos Teóricos ({results.modules.length})
+                  <span className={`text-[11px] font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5 ${
+                    isClean ? 'text-slate-500' : 'text-slate-400'
+                  }`}>
+                    <BookOpen className="w-3.5 h-3.5 text-emerald-500" /> Módulos Teóricos ({results.modules.length})
                   </span>
                   <div className="space-y-1.5">
                     {results.modules.map((m) => (
@@ -138,17 +148,23 @@ export function SearchModal({
                           onSelectModule(m.id);
                           onClose();
                         }}
-                        className="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition flex items-center justify-between group"
+                        className={`w-full text-left p-3 rounded-xl border transition flex items-center justify-between group ${
+                          isClean
+                            ? 'bg-slate-50 hover:bg-slate-100 border-slate-200'
+                            : 'bg-slate-800/60 hover:bg-slate-800 border-slate-700/60'
+                        }`}
                       >
                         <div>
-                          <h5 className="font-semibold text-xs sm:text-sm text-white group-hover:text-indigo-300">
+                          <h5 className={`font-semibold text-xs sm:text-sm group-hover:text-emerald-500 ${
+                            isClean ? 'text-slate-900' : 'text-white'
+                          }`}>
                             {m.title}
                           </h5>
-                          <p className="text-[11px] text-slate-400 line-clamp-1">
+                          <p className={`text-[11px] line-clamp-1 ${isClean ? 'text-slate-500' : 'text-slate-400'}`}>
                             {m.shortDescription}
                           </p>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 shrink-0 ml-2" />
+                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-500 shrink-0 ml-2" />
                       </button>
                     ))}
                   </div>
@@ -158,8 +174,10 @@ export function SearchModal({
               {/* Glossary Results */}
               {results.glossary.length > 0 && (
                 <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <BookA className="w-3.5 h-3.5 text-blue-400" /> Glossário de Termos ({results.glossary.length})
+                  <span className={`text-[11px] font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5 ${
+                    isClean ? 'text-slate-500' : 'text-slate-400'
+                  }`}>
+                    <BookA className="w-3.5 h-3.5 text-blue-500" /> Glossário de Termos ({results.glossary.length})
                   </span>
                   <div className="space-y-1.5">
                     {results.glossary.map((g) => (
@@ -169,22 +187,28 @@ export function SearchModal({
                           onSelectGlossary();
                           onClose();
                         }}
-                        className="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition flex items-center justify-between group"
+                        className={`w-full text-left p-3 rounded-xl border transition flex items-center justify-between group ${
+                          isClean
+                            ? 'bg-slate-50 hover:bg-slate-100 border-slate-200'
+                            : 'bg-slate-800/60 hover:bg-slate-800 border-slate-700/60'
+                        }`}
                       >
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-xs sm:text-sm text-white group-hover:text-blue-300">
+                            <span className={`font-bold text-xs sm:text-sm group-hover:text-blue-500 ${
+                              isClean ? 'text-slate-900' : 'text-white'
+                            }`}>
                               {g.term}
                             </span>
-                            <span className="text-[10px] text-emerald-400">
+                            <span className="text-[10px] text-emerald-600 dark:text-emerald-400">
                               ({g.translation})
                             </span>
                           </div>
-                          <p className="text-[11px] text-slate-400 line-clamp-1">
+                          <p className={`text-[11px] line-clamp-1 ${isClean ? 'text-slate-500' : 'text-slate-400'}`}>
                             {g.simpleDefinition}
                           </p>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-blue-400 shrink-0 ml-2" />
+                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-blue-500 shrink-0 ml-2" />
                       </button>
                     ))}
                   </div>
@@ -194,8 +218,10 @@ export function SearchModal({
               {/* Questions Results */}
               {results.questions.length > 0 && (
                 <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <HelpCircle className="w-3.5 h-3.5 text-amber-400" /> Questões de Concurso ({results.questions.length})
+                  <span className={`text-[11px] font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5 ${
+                    isClean ? 'text-slate-500' : 'text-slate-400'
+                  }`}>
+                    <HelpCircle className="w-3.5 h-3.5 text-amber-500" /> Questões de Concurso ({results.questions.length})
                   </span>
                   <div className="space-y-1.5">
                     {results.questions.slice(0, 4).map((q) => (
@@ -205,17 +231,21 @@ export function SearchModal({
                           onSelectSimulado(q.topicId);
                           onClose();
                         }}
-                        className="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition flex items-center justify-between group"
+                        className={`w-full text-left p-3 rounded-xl border transition flex items-center justify-between group ${
+                          isClean
+                            ? 'bg-slate-50 hover:bg-slate-100 border-slate-200'
+                            : 'bg-slate-800/60 hover:bg-slate-800 border-slate-700/60'
+                        }`}
                       >
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] font-bold text-amber-400 mr-2">
+                          <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 mr-2">
                             [{q.banca} - {q.topicName}]
                           </span>
-                          <p className="text-xs text-slate-200 line-clamp-1 inline">
+                          <p className={`text-xs line-clamp-1 inline ${isClean ? 'text-slate-700' : 'text-slate-200'}`}>
                             {q.enunciado}
                           </p>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-amber-400 shrink-0 ml-2" />
+                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-500 shrink-0 ml-2" />
                       </button>
                     ))}
                   </div>
@@ -225,8 +255,10 @@ export function SearchModal({
               {/* Flashcards Results */}
               {results.flashcards.length > 0 && (
                 <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-400" /> Flashcards ({results.flashcards.length})
+                  <span className={`text-[11px] font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5 ${
+                    isClean ? 'text-slate-500' : 'text-slate-400'
+                  }`}>
+                    <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Flashcards ({results.flashcards.length})
                   </span>
                   <div className="space-y-1.5">
                     {results.flashcards.slice(0, 3).map((f) => (
@@ -236,17 +268,21 @@ export function SearchModal({
                           onSelectFlashcards();
                           onClose();
                         }}
-                        className="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition flex items-center justify-between group"
+                        className={`w-full text-left p-3 rounded-xl border transition flex items-center justify-between group ${
+                          isClean
+                            ? 'bg-slate-50 hover:bg-slate-100 border-slate-200'
+                            : 'bg-slate-800/60 hover:bg-slate-800 border-slate-700/60'
+                        }`}
                       >
                         <div>
-                          <span className="text-[10px] font-bold text-purple-400 block mb-0.5">
+                          <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 block mb-0.5">
                             {f.topic}
                           </span>
-                          <p className="text-xs text-white line-clamp-1">
+                          <p className={`text-xs line-clamp-1 ${isClean ? 'text-slate-800' : 'text-white'}`}>
                             {f.front}
                           </p>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-purple-400 shrink-0 ml-2" />
+                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-purple-500 shrink-0 ml-2" />
                       </button>
                     ))}
                   </div>

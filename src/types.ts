@@ -1,7 +1,18 @@
-export type TabType = 'modulos' | 'matriz' | 'simulado' | 'flashcards' | 'glossario' | 'plano';
+export type TabType = 
+  | 'cienciadados' 
+  | 'portugues' 
+  | 'ingles' 
+  | 'matriz' 
+  | 'simulado' 
+  | 'flashcards' 
+  | 'glossario' 
+  | 'plano';
+
+export type DisciplineType = 'cienciadados' | 'portugues' | 'ingles';
 
 export interface ModuleSection {
   id: string;
+  discipline: DisciplineType;
   title: string;
   shortDescription: string;
   badge: string;
@@ -28,17 +39,19 @@ export type QuestionType = 'certo_errado' | 'multipla_escolha';
 
 export interface Question {
   id: string;
-  banca: 'Cebraspe' | 'FGV' | 'FCC' | 'Cesgranrio' | 'Vunesp' | 'Inédita / Padrão Concurso';
+  discipline: DisciplineType;
+  banca: 'Cesgranrio' | 'Cebraspe' | 'FGV' | 'FCC' | 'Vunesp' | 'Padrão Cesgranrio';
   orgaoAno: string;
   topicId: string;
   topicName: string;
   type: QuestionType;
   enunciado: string;
+  textContext?: string; // For text interpretation in Portuguese or English
   options?: {
     id: string;
     text: string;
   }[];
-  correctAnswer: string; // 'C' | 'E' or 'A' | 'B' | 'C' | 'D' | 'E'
+  correctAnswer: string;
   explicacao: string;
   pegadinha: string;
 }
