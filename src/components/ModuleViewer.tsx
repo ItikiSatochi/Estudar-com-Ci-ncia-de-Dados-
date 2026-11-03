@@ -17,7 +17,10 @@ import {
   Calculator,
   Ship,
   BookText,
-  Languages
+  Languages,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ChevronDown
 } from 'lucide-react';
 
 interface ModuleViewerProps {
@@ -83,30 +86,33 @@ export function ModuleViewer({
     }
   };
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   const completedCount = filteredModules.filter(m => completedModules[m.id]).length;
   const progressPercent = Math.round((completedCount / filteredModules.length) * 100);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
       {/* Left Navigation: Modules Index */}
-      <div className="lg:col-span-4 space-y-4">
-        {/* Progress Card */}
-        <div className={`p-4 rounded-2xl border transition-colors ${
-          isClean ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-900 border-slate-800 shadow-sm'
-        }`}>
-          <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
-            <span className={isClean ? 'text-slate-600' : 'text-slate-400'}>Progresso na Matéria</span>
-            <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-              {completedCount} de {filteredModules.length} ({progressPercent}%)
-            </span>
+      {isSidebarOpen && (
+        <div className="lg:col-span-4 xl:col-span-3 space-y-3.5">
+          {/* Progress Card */}
+          <div className={`p-3.5 rounded-xl border transition-colors ${
+            isClean ? 'bg-white border-slate-200 shadow-xs' : 'bg-slate-900 border-slate-800 shadow-xs'
+          }`}>
+            <div className="flex items-center justify-between text-xs font-semibold mb-1">
+              <span className={isClean ? 'text-slate-600' : 'text-slate-400'}>Progresso na Matéria</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                {completedCount} de {filteredModules.length} ({progressPercent}%)
+              </span>
+            </div>
+            <div className={`w-full h-1.5 rounded-full overflow-hidden ${isClean ? 'bg-slate-100' : 'bg-slate-800'}`}>
+              <div
+                className="bg-gradient-to-r from-emerald-500 to-teal-500 h-full rounded-full transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
           </div>
-          <div className={`w-full h-2 rounded-full overflow-hidden ${isClean ? 'bg-slate-100' : 'bg-slate-800'}`}>
-            <div
-              className="bg-gradient-to-r from-emerald-500 to-teal-500 h-full rounded-full transition-all duration-300"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-        </div>
 
         {/* Modules List */}
         <div className={`p-3 space-y-1.5 rounded-2xl border max-h-[750px] overflow-y-auto transition-colors ${
@@ -191,32 +197,70 @@ export function ModuleViewer({
           })}
         </div>
       </div>
+      )}
 
       {/* Right Column: Module Reader */}
-      <div className="lg:col-span-8 space-y-6">
-        <div className={`p-6 sm:p-8 rounded-3xl border transition-colors ${
+      <div className={`${isSidebarOpen ? 'lg:col-span-8 xl:col-span-9' : 'lg:col-span-12 max-w-5xl mx-auto w-full'} space-y-5`}>
+        <div className={`p-4 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl border transition-colors ${
           isClean 
             ? 'bg-white border-slate-200 text-slate-800 shadow-sm' 
             : 'bg-slate-900 border-slate-800 text-slate-100 shadow-xl'
         }`}>
           {/* Module Header */}
-          <div className={`pb-6 border-b ${isClean ? 'border-slate-200' : 'border-slate-800'}`}>
+          <div className={`pb-5 border-b ${isClean ? 'border-slate-200' : 'border-slate-800'}`}>
             <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-              <div className="flex items-center gap-2">
-                <span className={`px-2.5 py-1 text-xs font-bold rounded-lg border ${
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Sidebar Toggle Button */}
+                <button
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition ${
+                    isClean
+                      ? 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                      : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
+                  }`}
+                  title={isSidebarOpen ? "Ocultar menu lateral para leitura ampla" : "Mostrar lista de tópicos"}
+                >
+                  {isSidebarOpen ? <PanelLeftClose className="w-3.5 h-3.5 text-emerald-500" /> : <PanelLeftOpen className="w-3.5 h-3.5 text-emerald-500" />}
+                  <span>{isSidebarOpen ? 'Ocultar Menu Lateral' : 'Mostrar Tópicos'}</span>
+                </button>
+
+                {/* Quick Topic Selector Dropdown */}
+                <div className="relative inline-block">
+                  <select
+                    value={currentModule.id}
+                    onChange={(e) => {
+                      setSelectedModuleId(e.target.value);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`text-xs font-semibold py-1.5 pl-2.5 pr-6 rounded-lg border appearance-none cursor-pointer transition max-w-[190px] sm:max-w-xs truncate ${
+                      isClean ? 'bg-white border-slate-200 text-slate-800' : 'bg-slate-800 border-slate-700 text-slate-200'
+                    }`}
+                  >
+                    {filteredModules.map((m, i) => (
+                      <option key={m.id} value={m.id}>
+                        {i + 1}. {m.title}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 absolute right-2 top-2 pointer-events-none text-slate-400" />
+                </div>
+
+                <span className={`px-2 py-0.5 text-xs font-bold rounded-md border hidden sm:inline-block ${
                   isClean
                     ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
                     : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
                 }`}>
                   {currentModule.badge}
                 </span>
-                <span className={`text-xs flex items-center gap-1 ${isClean ? 'text-slate-500' : 'text-slate-400'}`}>
-                  <Clock className="w-3.5 h-3.5" /> Leitura: {currentModule.readTime}
+
+                <span className={`text-xs flex items-center gap-1 hidden md:flex ${isClean ? 'text-slate-500' : 'text-slate-400'}`}>
+                  <Clock className="w-3 h-3" /> {currentModule.readTime}
                 </span>
               </div>
+
               <button
                 onClick={() => toggleModuleCompleted(currentModule.id)}
-                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition ${
+                className={`flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition ${
                   completedModules[currentModule.id]
                     ? isClean
                       ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
@@ -228,11 +272,11 @@ export function ModuleViewer({
               >
                 {completedModules[currentModule.id] ? (
                   <>
-                    <CheckSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> Módulo Concluído!
+                    <CheckSquare className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> Concluído
                   </>
                 ) : (
                   <>
-                    <Square className="w-4 h-4" /> Marcar como Lido
+                    <Square className="w-3.5 h-3.5" /> Marcar Lido
                   </>
                 )}
               </button>

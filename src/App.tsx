@@ -29,7 +29,8 @@ import {
   Trophy,
   Calendar,
   Compass,
-  Lightbulb
+  Lightbulb,
+  X
 } from 'lucide-react';
 
 function AppContent() {
@@ -39,6 +40,7 @@ function AppContent() {
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [isBeginnerGuideOpen, setIsBeginnerGuideOpen] = useState<boolean>(false);
   const [englishSubTab, setEnglishSubTab] = useState<'decifrador' | 'modulos'>('decifrador');
+  const [showBanner, setShowBanner] = useState<boolean>(true);
 
   // Global keyboard shortcut for search
   useEffect(() => {
@@ -82,33 +84,42 @@ function AppContent() {
       />
 
       {/* Target Exam Notice Banner */}
-      <div className={`py-2 px-4 text-xs text-center border-b transition-colors ${
-        isClean
-          ? 'bg-emerald-50/80 border-emerald-200 text-slate-700'
-          : 'bg-gradient-to-r from-emerald-950/60 via-slate-900 to-indigo-950/60 border-emerald-900/40 text-slate-300'
-      }`}>
-        <span className="inline-flex items-center gap-2 flex-wrap justify-center">
-          <span className={`px-2 py-0.5 rounded font-extrabold uppercase text-[10px] border flex items-center gap-1 ${
-            isClean
-              ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-              : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-          }`}>
-            <Ship className="w-3 h-3" /> Transpetro • Cesgranrio
-          </span>
-          <span>
-            1ª vez prestando concurso? Foque nos conceitos práticos de <strong>Ênfase 8: Ciência de Dados</strong>, <strong>Português</strong> e no <strong>Decifrador de Inglês</strong> sem tradutor!
-          </span>
+      {showBanner && (
+        <div className={`py-1.5 px-3 text-xs text-center border-b transition-colors relative flex items-center justify-center ${
+          isClean
+            ? 'bg-emerald-50/80 border-emerald-200 text-slate-700'
+            : 'bg-gradient-to-r from-emerald-950/60 via-slate-900 to-indigo-950/60 border-emerald-900/40 text-slate-300'
+        }`}>
+          <div className="inline-flex items-center gap-1.5 flex-wrap justify-center pr-6">
+            <span className={`px-1.5 py-0.2 rounded font-extrabold uppercase text-[10px] border flex items-center gap-1 ${
+              isClean
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+            }`}>
+              <Ship className="w-3 h-3" /> Transpetro • Cesgranrio
+            </span>
+            <span>
+              1ª vez em concurso? Foque em <strong>Ênfase 8: Ciência de Dados</strong>, <strong>Português</strong> e no <strong>Decifrador de Inglês</strong>!
+            </span>
+            <button
+              onClick={() => setIsBeginnerGuideOpen(true)}
+              className="text-emerald-600 dark:text-emerald-400 font-bold underline inline-flex items-center gap-0.5 ml-1 hover:opacity-80"
+            >
+              Dicas p/ Iniciantes <Lightbulb className="w-3 h-3" />
+            </button>
+          </div>
           <button
-            onClick={() => setIsBeginnerGuideOpen(true)}
-            className="text-emerald-600 dark:text-emerald-400 font-bold underline inline-flex items-center gap-0.5 ml-1 hover:opacity-80"
+            onClick={() => setShowBanner(false)}
+            className="absolute right-2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
+            title="Fechar aviso"
           >
-            Abrir Dicas para Iniciantes <Lightbulb className="w-3 h-3" />
+            <X className="w-3.5 h-3.5" />
           </button>
-        </span>
-      </div>
+        </div>
+      )}
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6">
         {/* Module Viewer for Data Science */}
         {currentTab === 'cienciadados' && (
           <ModuleViewer
